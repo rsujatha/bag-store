@@ -2,7 +2,7 @@ import React from 'react';
 import { ShoppingBag, Star } from 'lucide-react';
 
 const BAGS = [
-  { id: 1, name: "Urban Explorer", price: 2499, img: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500" },
+  { id: 1, name: "Urban Explorer", price: 2499, img: "/catalog/example" },
   { id: 2, name: "Midnight Leather", price: 4999, img: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=500" },
 ];
 
