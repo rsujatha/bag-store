@@ -16,7 +16,7 @@ function App() {
       {/* Navbar */}
       <nav className="bg-white shadow-sm p-4 flex justify-between items-center">
         <h1 className="text-2xl font-bold flex items-center gap-2">
-          <ShoppingBag className="text-indigo-600" /> BAGGS
+          <ShoppingBag className="text-indigo-600" /> SHALU BAGGS
         </h1>
         <button className="bg-indigo-600 text-white px-6 py-2 rounded-full font-medium">Cart (0)</button>
       </nav>
