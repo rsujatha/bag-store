@@ -14,7 +14,10 @@ function Navbar() {
 
         {/* Logo */}
         <a href="/" className="navbar-logo">
-          <img src="/images/kasvi-logo.jpeg" alt="Kasvi Bags" className="navbar-logo-img" />
+          <div className="navbar-logo-icon-wrap">
+            <img src="/images/kasvi-logo.jpeg" alt="" className="navbar-logo-img" />
+          </div>
+          <span className="navbar-logo-text">Kasvi Bags</span>
         </a>
 
         {/* Navigation Links */}
