@@ -36,35 +36,55 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navbar */}
-<nav className="bg-white shadow-md p-4 sticky top-0 z-50">
-  <div className="max-w-6xl mx-auto flex justify-between items-center">
+
+<nav className="bg-white shadow-sm h-20 flex items-center sticky top-0 z-50 px-10">
+  <div className="w-full flex items-center justify-between max-w-[1600px] mx-auto">
     
-    {/* Left Side: Logo */}
-    <div className="flex items-center gap-2">
-      <ShoppingBag className="text-indigo-600" size={28} />
-      <span className="text-2xl font-black tracking-tighter text-gray-900">KASVI BAGS</span>
+    {/* 1. Logo Section */}
+    <div className="flex items-center gap-1 cursor-pointer pr-4">
+      <div className="bg-indigo-600 p-2 rounded-lg">
+        <ShoppingBag className="text-white" size={24} />
+      </div>
+      <span className="text-xl font-black tracking-tight text-gray-800">KASVI</span>
     </div>
 
-    {/* Right Side: Navigation Links & Cart */}
-    <div className="flex items-center gap-8">
-      <ul className="flex flex-column gap-6 text-sm font-semibold text-gray-600">
-        <li className="hover:text-indigo-600 cursor-pointer transition-colors">SHOP</li>
-        <li className="hover:text-indigo-600 cursor-pointer transition-colors">BLOG</li>
-        <li className="hover:text-indigo-600 cursor-pointer transition-colors">ABOUT US</li>
-      </ul>
+    {/* 2. Navigation Links (Myntra style) */}
+    <ul className="hidden lg:flex items-center h-20 gap-8 ml-4">
+      {['BAGS', 'LUGGAGE', 'BACKPACKS', 'OFFERS'].map((item) => (
+        <li key={item} className="h-full flex items-center border-b-4 border-transparent hover:border-indigo-600 transition-all cursor-pointer">
+          <span className="text-xs font-bold text-gray-700 tracking-widest">{item}</span>
+        </li>
+      ))}
+    </ul>
+
+    {/* 3. Search Bar (The Myntra Look) */}
+    <div className="flex-1 max-w-md mx-8 hidden md:block">
+      <div className="relative">
+        <input 
+          type="text" 
+          placeholder="Search for products, brands and more" 
+          className="w-full bg-gray-100 border border-transparent focus:border-gray-200 focus:bg-white py-2 pl-10 pr-4 rounded text-sm outline-none transition-all"
+        />
+        <svg className="absolute left-3 top-2.5 text-gray-400" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+      </div>
+    </div>
+
+    {/* 4. Action Icons (Right Side) */}
+    <div className="flex items-center gap-6">
+      <div className="flex flex-col items-center cursor-pointer group">
+        <Star size={18} className="text-gray-700 group-hover:text-black" />
+        <span className="text-[10px] font-bold mt-1">Wishlist</span>
+      </div>
       
-      {/* Cart Button */}
-      <button className="relative p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors">
-        <ShoppingBag size={20} />
-        <span className="absolute -top-1 -right-1 bg-indigo-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
-          0
-        </span>
-      </button>
+      <div className="flex flex-col items-center cursor-pointer group relative">
+        <ShoppingBag size={18} className="text-gray-700 group-hover:text-black" />
+        <span className="text-[10px] font-bold mt-1">Bag</span>
+        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold">0</span>
+      </div>
     </div>
 
   </div>
 </nav>
-
       {/* Hero */}
       <header className="py-12 text-center">
         <h2 className="text-4xl font-extrabold text-gray-900">Premium Collection 2026</h2>
