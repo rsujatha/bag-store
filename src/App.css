@@ -77,9 +77,9 @@ body {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 22px;
   font-weight: 600;
-  font-style: italic;
+  font-style: normal;
   color: var(--color-accent);
-  letter-spacing: 0.5px;
+  letter-spacing: 3px;
   white-space: nowrap;
 }
 

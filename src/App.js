@@ -17,7 +17,7 @@ function Navbar() {
           <div className="navbar-logo-icon-wrap">
             <img src="/images/kasvi-logo.jpeg" alt="" className="navbar-logo-img" />
           </div>
-          <span className="navbar-logo-text">Kasvi Bags</span>
+          <span className="navbar-logo-text">KASVI</span>
         </a>
 
         {/* Navigation Links */}
