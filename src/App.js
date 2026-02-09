@@ -36,12 +36,34 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navbar */}
-      <nav className="bg-white shadow-sm p-4 flex justify-between items-center">
-        <h1 className="text-2xl font-bold flex items-center gap-2">
-          <ShoppingBag className="text-indigo-600" /> KASVI BAGS
-        </h1>
-        <button className="bg-indigo-600 text-white px-6 py-2 rounded-full font-medium">Cart (0)</button>
-      </nav>
+<nav className="bg-white shadow-md p-4 sticky top-0 z-50">
+  <div className="max-w-6xl mx-auto flex justify-between items-center">
+    
+    {/* Left Side: Logo */}
+    <div className="flex items-center gap-2">
+      <ShoppingBag className="text-indigo-600" size={28} />
+      <span className="text-2xl font-black tracking-tighter text-gray-900">KASVI BAGS</span>
+    </div>
+
+    {/* Right Side: Navigation Links & Cart */}
+    <div className="flex items-center gap-8">
+      <ul className="hidden md:flex gap-6 text-sm font-semibold text-gray-600">
+        <li className="hover:text-indigo-600 cursor-pointer transition-colors">SHOP</li>
+        <li className="hover:text-indigo-600 cursor-pointer transition-colors">BLOG</li>
+        <li className="hover:text-indigo-600 cursor-pointer transition-colors">ABOUT US</li>
+      </ul>
+      
+      {/* Cart Button */}
+      <button className="relative p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors">
+        <ShoppingBag size={20} />
+        <span className="absolute -top-1 -right-1 bg-indigo-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
+          0
+        </span>
+      </button>
+    </div>
+
+  </div>
+</nav>
 
       {/* Hero */}
       <header className="py-12 text-center">
