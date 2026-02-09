@@ -134,6 +134,68 @@ function ShopPage() {
   );
 }
 
+function AboutPage() {
+  return (
+    <section className="about-page">
+      <div className="about-hero">
+        <span className="about-tagline">Style with Purpose</span>
+        <h2>Preserving a Legacy, One Koodai at a Time</h2>
+        <p>
+          Every KASVI bag carries a story woven by the skilled hands of women artisans from Tamil Nadu.
+        </p>
+      </div>
+
+      <div className="about-content">
+        <div className="about-section">
+          <h3>The Craft</h3>
+          <p>
+            For generations, the women of Tamil Nadu have practiced the art of koodai weaving
+            &mdash; a time-honoured handicraft passed down through families and communities.
+            These artisans possess an extraordinary skill that transforms simple materials into
+            beautiful, functional works of art. They deserve the recognition and support to keep
+            this living tradition thriving.
+          </p>
+        </div>
+
+        <div className="about-section">
+          <h3>Sustainable by Nature</h3>
+          <p>
+            Each koodai is handcrafted from recycled plastics, giving new life to materials that
+            would otherwise end up in landfills. The result is a bag that is not only stunning
+            but remarkably sturdy &mdash; built to last easily over 10 years of everyday use.
+            When you carry a KASVI bag, you carry a choice for the planet.
+          </p>
+        </div>
+
+        <div className="about-section">
+          <h3>Our Mission</h3>
+          <p>
+            At KASVI, we believe style and sustainability are not at odds. We work directly with
+            artisan communities across Tamil Nadu, ensuring fair wages and preserving the craft
+            for future generations. Every purchase supports a woman artisan and her family,
+            keeping this centuries-old tradition alive.
+          </p>
+        </div>
+
+        <div className="about-values">
+          <div className="about-value-card">
+            <span className="about-value-number">100%</span>
+            <span className="about-value-label">Recycled Materials</span>
+          </div>
+          <div className="about-value-card">
+            <span className="about-value-number">10+</span>
+            <span className="about-value-label">Years of Durability</span>
+          </div>
+          <div className="about-value-card">
+            <span className="about-value-number">100+</span>
+            <span className="about-value-label">Women Artisans</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function App() {
   const [currentPage, setCurrentPage] = useState(() => {
     const hash = window.location.hash.replace('#', '');
@@ -166,12 +228,7 @@ function App() {
           <p>Coming soon.</p>
         </div>
       )}
-      {currentPage === 'about-us' && (
-        <div className="placeholder-page">
-          <h2>About Us</h2>
-          <p>Coming soon.</p>
-        </div>
-      )}
+      {currentPage === 'about-us' && <AboutPage />}
     </div>
   );
 }
