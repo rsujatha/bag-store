@@ -47,7 +47,7 @@ function App() {
 
     {/* Right Side: Navigation Links & Cart */}
     <div className="flex items-center gap-8">
-      <ul className="flex flex-row gap-6 text-sm font-semibold text-gray-600">
+      <ul className="flex flex-column gap-6 text-sm font-semibold text-gray-600">
         <li className="hover:text-indigo-600 cursor-pointer transition-colors">SHOP</li>
         <li className="hover:text-indigo-600 cursor-pointer transition-colors">BLOG</li>
         <li className="hover:text-indigo-600 cursor-pointer transition-colors">ABOUT US</li>
