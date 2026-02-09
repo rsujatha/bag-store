@@ -1,38 +1,325 @@
-.App {
-  text-align: center;
+/* ========== Global Reset & Tokens ========== */
+:root {
+  --color-primary: #1a1a1a;
+  --color-accent: #c8a97e;
+  --color-bg: #fafaf8;
+  --color-surface: #ffffff;
+  --color-text: #1a1a1a;
+  --color-text-muted: #71717a;
+  --color-border: #e4e4e7;
+  --color-danger: #dc2626;
+  --radius: 8px;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========== Navbar ========== */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-primary);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+}
+
+.navbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+  height: 64px;
+}
+
+/* Logo */
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.navbar-logo-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: var(--color-accent);
+  border-radius: 6px;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.navbar-logo-text {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+/* Nav Links */
+.navbar-links {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 0;
+  height: 64px;
+}
+
+.navbar-links li {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-links li a {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 20px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.65);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+
+.navbar-links li a:hover {
+  color: #ffffff;
+  border-bottom-color: var(--color-accent);
+}
+
+/* Search */
+.navbar-search {
+  position: relative;
+  flex: 0 1 320px;
+}
+
+.navbar-search input {
+  width: 100%;
+  padding: 9px 14px 9px 38px;
+  font-size: 13px;
+  font-family: var(--font-sans);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+  outline: none;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+.navbar-search input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.navbar-search input:focus {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.navbar-search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.4);
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Actions */
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.navbar-action {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  position: relative;
+  color: rgba(255, 255, 255, 0.65);
+  transition: color 0.2s ease;
+  background: none;
+  border: none;
+  font-family: var(--font-sans);
+}
+
+.navbar-action:hover {
+  color: #ffffff;
+}
+
+.navbar-action span {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.navbar-badge {
+  position: absolute;
+  top: -4px;
+  right: -6px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: var(--color-primary);
+  font-size: 9px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  line-height: 1;
 }
 
-.App-link {
-  color: #61dafb;
+/* ========== Hero Section ========== */
+.hero {
+  text-align: center;
+  padding: 64px 24px 40px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.hero h2 {
+  font-size: 40px;
+  font-weight: 800;
+  color: var(--color-text);
+  letter-spacing: -1px;
+  line-height: 1.2;
+}
+
+.hero p {
+  color: var(--color-text-muted);
+  font-size: 16px;
+  margin-top: 12px;
+  line-height: 1.6;
+}
+
+/* ========== Product Grid ========== */
+.product-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  padding: 0 24px 80px;
+}
+
+@media (max-width: 768px) {
+  .product-grid {
+    grid-template-columns: 1fr;
   }
-  to {
-    transform: rotate(360deg);
+
+  .navbar-links,
+  .navbar-search {
+    display: none;
   }
+
+  .navbar-inner {
+    padding: 0 16px;
+  }
+}
+
+/* Product Card */
+.product-card {
+  background: var(--color-surface);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+.product-card img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  display: block;
+}
+
+.product-card-body {
+  padding: 24px;
+}
+
+.product-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.product-card-header h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.product-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-accent);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.product-price {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--color-primary);
+  margin-top: 16px;
+}
+
+.buy-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px;
+  padding: 14px 28px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  background: var(--color-primary);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: background 0.25s ease, transform 0.15s ease;
+}
+
+.buy-button:hover {
+  background: #333333;
+  transform: translateY(-1px);
+}
+
+.buy-button:active {
+  transform: translateY(0);
 }
