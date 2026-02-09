@@ -14,10 +14,7 @@ function Navbar() {
 
         {/* Logo */}
         <a href="/" className="navbar-logo">
-          <div className="navbar-logo-icon">
-            <ShoppingBag size={20} />
-          </div>
-          <span className="navbar-logo-text">Kasvi</span>
+          <img src="/images/kasvi-logo.jpeg" alt="Kasvi Bags" className="navbar-logo-img" />
         </a>
 
         {/* Navigation Links */}

@@ -50,29 +50,17 @@ body {
 .navbar-logo {
   display: flex;
   align-items: center;
-  gap: 10px;
   cursor: pointer;
   text-decoration: none;
-}
-
-.navbar-logo-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  background: var(--color-accent);
-  border-radius: 6px;
-  color: var(--color-primary);
   flex-shrink: 0;
 }
 
-.navbar-logo-text {
-  font-size: 18px;
-  font-weight: 800;
-  letter-spacing: 3px;
-  color: #ffffff;
-  text-transform: uppercase;
+.navbar-logo-img {
+  height: 52px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  border-radius: 4px;
 }
 
 /* Nav Links */
