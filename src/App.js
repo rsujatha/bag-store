@@ -1,5 +1,5 @@
-import React from 'react';
-import { ShoppingBag, Star, Heart } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ShoppingBag, Star, Heart, ArrowRight } from 'lucide-react';
 import './App.css';
 
 const BAGS = [
@@ -7,13 +7,23 @@ const BAGS = [
   { id: 2, name: "Midnight Leather", price: 4999, img: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=500" },
 ];
 
-function Navbar() {
+function Navbar({ currentPage, onNavigate }) {
+  const navItems = [
+    { label: 'Shop', hash: 'shop' },
+    { label: 'Blog', hash: 'blog' },
+    { label: 'About Us', hash: 'about-us' },
+  ];
+
   return (
     <nav className="navbar">
       <div className="navbar-inner">
 
         {/* Logo */}
-        <a href="/" className="navbar-logo">
+        <a
+          href="#home"
+          className="navbar-logo"
+          onClick={(e) => { e.preventDefault(); onNavigate('home'); }}
+        >
           <div className="navbar-logo-icon-wrap">
             <img src="/images/kasvi-logo.jpeg" alt="" className="navbar-logo-img" />
           </div>
@@ -22,9 +32,15 @@ function Navbar() {
 
         {/* Navigation Links */}
         <ul className="navbar-links">
-          {['Shop', 'Blog', 'About Us'].map((item) => (
-            <li key={item}>
-              <a href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}>{item}</a>
+          {navItems.map((item) => (
+            <li key={item.hash}>
+              <a
+                href={`#${item.hash}`}
+                className={currentPage === item.hash ? 'active' : ''}
+                onClick={(e) => { e.preventDefault(); onNavigate(item.hash); }}
+              >
+                {item.label}
+              </a>
             </li>
           ))}
         </ul>
@@ -48,7 +64,22 @@ function Navbar() {
   );
 }
 
-function App() {
+function HomePage({ onNavigate }) {
+  return (
+    <>
+      <header className="hero">
+        <h2>Premium Collection 2026</h2>
+        <p>Quality bags for your everyday journey.</p>
+        <button className="hero-cta" onClick={() => onNavigate('shop')}>
+          Browse the Shop
+          <ArrowRight size={16} />
+        </button>
+      </header>
+    </>
+  );
+}
+
+function ShopPage() {
   const makePayment = async (price) => {
     try {
       const response = await fetch('http://localhost:5001/create-order', {
@@ -71,16 +102,12 @@ function App() {
   };
 
   return (
-    <div>
-      <Navbar />
-
-      {/* Hero */}
-      <header className="hero">
-        <h2>Premium Collection 2026</h2>
-        <p>Quality bags for your everyday journey.</p>
+    <>
+      <header className="shop-header">
+        <h2>Shop</h2>
+        <p>Explore our curated collection of premium bags.</p>
       </header>
 
-      {/* Product Grid */}
       <main className="product-grid">
         {BAGS.map(bag => (
           <div key={bag.id} className="product-card">
@@ -103,6 +130,48 @@ function App() {
           </div>
         ))}
       </main>
+    </>
+  );
+}
+
+function App() {
+  const [currentPage, setCurrentPage] = useState(() => {
+    const hash = window.location.hash.replace('#', '');
+    return hash || 'home';
+  });
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '');
+      setCurrentPage(hash || 'home');
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  const navigate = (page) => {
+    window.location.hash = page;
+    setCurrentPage(page);
+    window.scrollTo(0, 0);
+  };
+
+  return (
+    <div>
+      <Navbar currentPage={currentPage} onNavigate={navigate} />
+      {currentPage === 'shop' && <ShopPage />}
+      {currentPage === 'home' && <HomePage onNavigate={navigate} />}
+      {currentPage === 'blog' && (
+        <div className="placeholder-page">
+          <h2>Blog</h2>
+          <p>Coming soon.</p>
+        </div>
+      )}
+      {currentPage === 'about-us' && (
+        <div className="placeholder-page">
+          <h2>About Us</h2>
+          <p>Coming soon.</p>
+        </div>
+      )}
     </div>
   );
 }
