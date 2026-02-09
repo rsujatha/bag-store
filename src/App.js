@@ -19,9 +19,9 @@ function Navbar() {
 
         {/* Navigation Links */}
         <ul className="navbar-links">
-          {['Bags', 'Luggage', 'Backpacks', 'Offers'].map((item) => (
+          {['Shop', 'Blog', 'About Us'].map((item) => (
             <li key={item}>
-              <a href={`#${item.toLowerCase()}`}>{item}</a>
+              <a href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}>{item}</a>
             </li>
           ))}
         </ul>
