@@ -12,6 +12,9 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
+app.get('/', (req, res) => {
+  res.send("Welcome to the Bag Store Backend!");
+});
 // This endpoint creates a "Receipt" for the user to pay
 app.post('/create-order', async (req, res) => {
   try {
@@ -28,5 +31,5 @@ app.post('/create-order', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

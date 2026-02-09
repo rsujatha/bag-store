@@ -7,32 +7,10 @@ const BAGS = [
 ];
 
 function App() {
-  const makePayment = async (price) => {
-  try {
-    // This tells React to talk to your Node.js server
-    const response = await fetch('http://localhost:5001/create-order', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        amount: price, // sending the bag price
-      }),
-    });
+  const handlePayment = (price) => {
+    alert(`Redirecting to Razorpay for ₹${price}... (Backend setup needed next!)`);
+  };
 
-    const data = await response.json();
-    console.log("Response from Server:", data);
-
-    if (data.id) {
-      alert(`Order Created Successfully! ID: ${data.id}`);
-    } else {
-      alert("Server reached, but Razorpay keys are missing or invalid.");
-    }
-  } catch (error) {
-    console.error("Connection Error:", error);
-    alert("Could not connect to the server. Make sure node index.js is running!");
-  }
-};
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navbar */}
@@ -60,9 +38,12 @@ function App() {
                 <span className="flex items-center text-yellow-500"><Star size={16} fill="currentColor"/> 4.8</span>
               </div>
               <p className="text-2xl font-black mt-4 text-indigo-600">₹{bag.price}</p>
-             <button onClick={() => makePayment(bag.price)}>
-		 Buy Now
-            </button>
+              <button 
+                onClick={() => handlePayment(bag.price)}
+                className="w-full mt-6 bg-gray-900 text-white py-3 rounded-xl font-bold hover:bg-indigo-600 transition-colors"
+              >
+                Buy Now
+              </button>
             </div>
           </div>
         ))}
