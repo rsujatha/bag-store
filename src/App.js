@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShoppingBag, Star, Heart, Search } from 'lucide-react';
+import { ShoppingBag, Star, Heart } from 'lucide-react';
 import './App.css';
 
 const BAGS = [
@@ -28,16 +28,6 @@ function Navbar() {
             </li>
           ))}
         </ul>
-
-        {/* Search Bar */}
-        <div className="navbar-search">
-          <Search size={16} className="navbar-search-icon" />
-          <input
-            type="text"
-            placeholder="Search products, brands..."
-            aria-label="Search products"
-          />
-        </div>
 
         {/* Action Icons */}
         <div className="navbar-actions">
