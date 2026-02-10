@@ -68,7 +68,7 @@ function HomePage({ onNavigate }) {
   return (
     <>
       <header className="hero">
-        <h2>Premium Collection 2026</h2>
+        <h2>Style with Purpose 2026</h2>
         <p>Quality bags for your everyday journey.</p>
         <button className="hero-cta" onClick={() => onNavigate('shop')}>
           Browse the Shop
