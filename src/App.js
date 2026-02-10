@@ -27,8 +27,13 @@ function Navbar({ currentPage, onNavigate }) {
           <div className="navbar-logo-icon-wrap">
             <img src="/images/kasvi-logo.jpeg" alt="" className="navbar-logo-img" />
           </div>
-          <span className="navbar-logo-text">KASVI</span>
-        </a>
+<span 
+  className="navbar-logo-text" 
+  style={{ fontSize: '36px', fontWeight: 'bold' }}
+>
+  KASVI
+</span>
+       </a>
 
         {/* Navigation Links */}
         <ul className="navbar-links">
@@ -105,7 +110,7 @@ function ShopPage() {
     <>
       <header className="shop-header">
         <h2>Shop</h2>
-        <p>Explore our curated collection of premium bags.</p>
+        <p>Explore our curated collection of handcrafted bags.</p>
       </header>
 
       <main className="product-grid">
