@@ -1,5 +1,5 @@
 /* ========== Global Reset & Tokens ========== */
-:root {
+/*:root {
   --color-primary: #283618;    /* Deep Forest Green (Nature & Growth) */
   --color-accent: #c8a97e;
   --color-bg: #fefae0;         /* Warm Parchment (Handmade paper feel) */
@@ -10,8 +10,24 @@
   --color-danger: #ae2012;     /* A "clay red" instead of "digital red" */
   --radius: 8px;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-}
+}*/
+:root {
+  /* Core Brand Colors from Logo */
+  --color-primary: #50297A;    /* Royal Purple */
+  --color-accent: #FF1D58;     /* Hot Pink for Buttons/CTAs */
+  --color-highlight: #FFD600;  /* Bright Yellow for badges/sale alerts */
+  --color-gold: #C8A97E;       /* Metallic Gold for 3D logo & borders */
 
+  /* Neutral Surfaces */
+  --color-bg: #F1E9E9;         /* Soft Ivory background for readability */
+  --color-surface: #FFFFFF;    /* Pure White for product cards */
+  --color-dark: #212121;       /* Deep Charcoal for footers or bold sections */
+
+  /* Text & Feedback */
+  --color-text: #212121;
+  --color-text-muted: #5A5A5A;
+  --color-border: #D4D4CA;
+}
 * {
   margin: 0;
   padding: 0;
