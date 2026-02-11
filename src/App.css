@@ -1,20 +1,21 @@
 /* ========== Global Reset & Tokens ========== */
 :root {
   /* Core Brand Colors from Logo */
-  --color-primary: #50297A;    /* Royal Purple (Luxury & Creativity) */
-  --color-accent: #FF1D58;     /* Hot Pink (Energy & Passion - Great for buttons) */
-  --color-highlight: #FFD600;  /* Bright Yellow (Optimism - Use for small alerts) */
-  --color-gold: #C8A97E;       /* Metallic Gold (The "Seal of Quality" for 3D elements) */
-
-  /* Neutral Surfaces */
-  --color-bg: #F1E9E9;         /* Soft Warm Gray (Replaces Parchment for a cleaner feel) */
-  --color-surface: #FFFFFF;    /* Pure White (For product cards to make bag colors pop) */
+  /* Muted Brand Colors */
+  --color-primary: #6B5B7B;    /* Dusty Plum (Subdued & Professional) */
+  --color-accent: #C06C84;     /* Old Rose (Elegant & Calm) */
+  --color-highlight: #D9B061;  /* Mustard Gold (Handmade detail) */
   
+  /* Luxury Neutrals */
+  --color-bg: #F2F1EF;         /* Soft Oatmeal (The "Canvas") */
+  --color-surface: #FFFFFF;    /* Pure white for product cards */
+  --color-dark: #37474F;       /* Slate Charcoal for text and footer */
+
   /* Text & Feedback */
-  --color-text: #212121;       /* Deep Charcoal (More readable than pure black) */
-  --color-text-muted: #6B5B7B; /* A dusty purple-gray for secondary text */
-  --color-border: #D4C5E2;     /* A pale violet tint for borders to stay on-brand */
-  --color-danger: #D00000;     /* Strong red for errors */
+  --color-text: #263238;       /* Very dark slate (replaces pure black) */
+  --color-text-muted: #78909C; /* Muted steel blue-gray */
+  --color-border: #DCDDE1;     /* Soft gray-lavender border */
+  --color-danger: #A6445D;     /* Muted berry red instead of bright red */
   --radius: 8px;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
