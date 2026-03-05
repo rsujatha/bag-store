@@ -1,0 +1,47 @@
+name: Nightly Google Sheet Sync
+
+on:
+  schedule:
+    - cron: "30 1 * * *"   # Every night at midnight UTC
+  workflow_dispatch:       # Manual trigger from the Actions UI
+
+jobs:
+  sync-sheet:
+    name: Fetch & Commit Google Sheet
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write   # needed to git push
+
+    env:
+      SHEET_ID: "19y4Goolws3QoInCJxxjVv_2gzkvi9SbHOjBxZ808DGs"
+      OUTPUT_DIR: "data"
+      OUTPUT_FORMAT: "both"   # csv | xlsx | both
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Sync Google Sheet
+        run: python sync_sheet.py
+
+      - name: Commit updated data files
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          if git diff --cached --quiet; then
+            echo "No changes — sheet data is up to date."
+          else
+            git commit -m "chore: nightly sync from Google Sheets [$(date -u '+%Y-%m-%d %H:%M UTC')]"
+            git push
+          fi
