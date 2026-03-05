@@ -2,7 +2,7 @@ name: Nightly Google Sheet Sync
 
 on:
   schedule:
-    - cron: "0 0 * * *"   # Every night at midnight UTC
+    - cron: "30 1 * * *"   # Every night at midnight UTC
   workflow_dispatch:       # Manual trigger from the Actions UI
 
 jobs:
