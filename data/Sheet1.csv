@@ -1,26 +1,23 @@
-S.NO,Product Name,Size,Dimensions ( L X B X H ),Description,Price,Product Image
-,Tote Bag,Small,,,,
-1.0,Tote Bag,Small,26 cm X 28 cm x 10 cm,,,
-2.0,,Medium,33 cm X 31 cm X 12 cm ,,,
-3.0,,Large,36 cm X 34 cm X 14 cm,,,
-4.0,Clutch ,Small,,,,
-5.0,,Medium,,,,
-6.0,,Large,,,,
-7.0,Sling with chain,Medium,,,,
-8.0,,Large,,,,
-9.0,Sling with handle,Medium,,,,
-10.0,,Large,,,,
-11.0,Basket Koodai,Small,,,,
-12.0,,Medium,,,,
-13.0,,Large,,,,
-14.0,Wooden handle Koodai,Small,,,,
-15.0,,Medium,,,,
-16.0,,Large,,,,
-17.0,Kai Koodai,Small,21 x 21 x 8,,,
-18.0,,Medium,28 x 28 x 10,,,
-19.0,,Large,30 x 30 x 11,,,
-20.0,Eye handle Koodai,Small,21 x 21 x 8,,,
-21.0,,Medium,28 x 28 x 10,,,
-22.0,,Large,30 x 30 x 11,,,
-23.0,Cute Pooja Basket,Small,,,,
-24.0,,Medium,,,,
+product_id,product_name,category,size,color,price (â¹),image_url,in_stock,description
+BAG001,Tote Bag,Tote,M,MULTI,1200,,True,"A stylish everyday Tote bag to carry your essentials, available in custom color in medium and large sizes"
+BAG001,Tote Bag,Tote,L,MULTI,1400,,False,"A stylish everyday Tote bag to carry your essentials, available in custom color in medium and large sizes"
+BAG002,Clutch Koodai,Clutch,S,MULTI,700,,True,An effortless style statement to complete your look
+BAG002,Clutch Koodai,Clutch,M,MULTI,1000,,True,An effortless style statement to complete your look
+BAG002 ,Clutch Koodai,Clutch,S,MULTI,700,,True,An effortless style statement to complete your look
+BAG003,Sling with chain,Sling,S,MULTI,900,,True,A timeless style statement with elegant handle
+BAG003,Sling with chain,Sling,M,MULTI,1200,,True,A timeless style statement with elegant handle
+BAG003,Sling with leather,Sling,S,MULTI,1100,,True,A timeless style statement with elegant handle
+BAG003,Sling with leather,Sling,M,MULTI,1400,,True,A timeless style statement with elegant handle
+BAG004,Basket Koodai,Basket,S,,650,,True,"Your everyday travel buddy, for that sturdy yet cute look"
+BAG004,Basket Koodai,Basket,M,,850,,True,"Your everyday travel buddy, for that sturdy yet cute look"
+BAG004,Basket Koodai,Basket,L,,1100,,True,"Your everyday travel buddy, for that sturdy yet cute look"
+BAG005,Wooden handle Koodai,Wooden,S,,750,,True,"Comfort and elegance woven into a bag, comes in custom sizes and colours of your choice!"
+BAG005,Wooden handle Koodai,Wooden,M,,1000,,True,"Comfort and elegance woven into a bag, comes in custom sizes and colours of your choice!"
+BAG005,Wooden handle Koodai,Wooden,L,,1400,,True,"Comfort and elegance woven into a bag, comes in custom sizes and colours of your choice!"
+BAG005,Kai Koodai,Wooden,S,,750,,True,The show stopping bag that can redefine your fashion while providing space for that extra shopping!
+BAG005,Kai Koodai,Wooden,M,,950,,True,The show stopping bag that can redefine your fashion while providing space for that extra shopping!
+BAG005,Eye handle Koodai,Wooden,S,,850,,True,"Ultra stylish bag, a perfect head turner!"
+BAG005,Eye handle Koodai,Wooden,M,,1100,,True,"Ultra stylish bag, a perfect head turner!"
+BAG005,Eye handle Koodai,Wooden,L,,1400,,True,"Ultra stylish bag, a perfect head turner!"
+BAG005,Cute Pooja Koodai,Pooja,S,,850,,True,The right bag for those days you wish to be extra charming 
+BAG005,Cute Pooja Koodai,Pooja,M,,1000,,True,The right bag for those days you wish to be extra charming 
