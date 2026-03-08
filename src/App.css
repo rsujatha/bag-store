@@ -920,3 +920,6 @@ body {
   opacity: 0.4;
   cursor: not-allowed;
 }
+.product-grid {
+  justify-content: center;
+}
