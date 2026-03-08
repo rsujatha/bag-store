@@ -13,7 +13,7 @@ import pandas as pd
 SHEET_ID   = os.environ.get("SHEET_ID", "19y4Goolws3QoInCJxxjVv_2gzkvi9SbHOjBxZ808DGs")
 OUTPUT_DIR = os.environ.get("OUTPUT_DIR", "data")
 FORMAT     = os.environ.get("OUTPUT_FORMAT", "both")  # csv | xlsx | both
-SHEET_GID: "34655845"   # gid of the google sheet
+SHEET_GID  = "34655845"   # gid of the google sheet
 
 
 def export_url(sheet_id: str, gid: str = "0") -> str:
