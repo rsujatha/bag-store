@@ -62,7 +62,7 @@ def main():
     #    print(f"    ⚠️  Tab discovery failed ({e}), using first sheet only.")
     #    tabs = [{"title": "Sheet1", "gid": "0"}]
 
-    gid = os.environ.get("SHEET_GID", "0")
+    gid = SHEET_GID 
     tabs = [{"title": "Sheet1", "gid": gid}]
 
     all_dfs: dict[str, pd.DataFrame] = {}
