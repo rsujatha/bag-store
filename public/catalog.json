@@ -5,7 +5,7 @@
     "category": "Tote",
     "size": "M",
     "color": "MULTI",
-    "price_(â¹)": 1200,
+    "price": 1200,
     "in_stock": true,
     "description": "A stylish everyday Tote bag to carry your essentials, available in custom color in medium and large sizes"
   },
@@ -15,7 +15,7 @@
     "category": "Tote",
     "size": "L",
     "color": "MULTI",
-    "price_(â¹)": 1400,
+    "price": 1400,
     "in_stock": false,
     "description": "A stylish everyday Tote bag to carry your essentials, available in custom color in medium and large sizes"
   },
@@ -25,7 +25,7 @@
     "category": "Clutch",
     "size": "S",
     "color": "MULTI",
-    "price_(â¹)": 700,
+    "price": 700,
     "in_stock": true,
     "description": "An effortless style statement to complete your look"
   },
@@ -35,7 +35,7 @@
     "category": "Clutch",
     "size": "M",
     "color": "MULTI",
-    "price_(â¹)": 1000,
+    "price": 1000,
     "in_stock": true,
     "description": "An effortless style statement to complete your look"
   },
@@ -45,7 +45,7 @@
     "category": "Clutch",
     "size": "S",
     "color": "MULTI",
-    "price_(â¹)": 700,
+    "price": 700,
     "in_stock": true,
     "description": "An effortless style statement to complete your look"
   },
@@ -55,7 +55,7 @@
     "category": "Sling",
     "size": "S",
     "color": "MULTI",
-    "price_(â¹)": 900,
+    "price": 900,
     "in_stock": true,
     "description": "A timeless style statement with elegant handle"
   },
@@ -65,7 +65,7 @@
     "category": "Sling",
     "size": "M",
     "color": "MULTI",
-    "price_(â¹)": 1200,
+    "price": 1200,
     "in_stock": true,
     "description": "A timeless style statement with elegant handle"
   },
@@ -75,7 +75,7 @@
     "category": "Sling",
     "size": "S",
     "color": "MULTI",
-    "price_(â¹)": 1100,
+    "price": 1100,
     "in_stock": true,
     "description": "A timeless style statement with elegant handle"
   },
@@ -85,7 +85,7 @@
     "category": "Sling",
     "size": "M",
     "color": "MULTI",
-    "price_(â¹)": 1400,
+    "price": 1400,
     "in_stock": true,
     "description": "A timeless style statement with elegant handle"
   },
@@ -95,7 +95,7 @@
     "category": "Basket",
     "size": "S",
     "color": "",
-    "price_(â¹)": 650,
+    "price": 650,
     "in_stock": true,
     "description": "Your everyday travel buddy, for that sturdy yet cute look"
   },
@@ -105,7 +105,7 @@
     "category": "Basket",
     "size": "M",
     "color": "",
-    "price_(â¹)": 850,
+    "price": 850,
     "in_stock": true,
     "description": "Your everyday travel buddy, for that sturdy yet cute look"
   },
@@ -115,7 +115,7 @@
     "category": "Basket",
     "size": "L",
     "color": "",
-    "price_(â¹)": 1100,
+    "price": 1100,
     "in_stock": true,
     "description": "Your everyday travel buddy, for that sturdy yet cute look"
   },
@@ -125,7 +125,7 @@
     "category": "Wooden",
     "size": "S",
     "color": "",
-    "price_(â¹)": 750,
+    "price": 750,
     "in_stock": true,
     "description": "Comfort and elegance woven into a bag, comes in custom sizes and colours of your choice!"
   },
@@ -135,7 +135,7 @@
     "category": "Wooden",
     "size": "M",
     "color": "",
-    "price_(â¹)": 1000,
+    "price": 1000,
     "in_stock": true,
     "description": "Comfort and elegance woven into a bag, comes in custom sizes and colours of your choice!"
   },
@@ -145,7 +145,7 @@
     "category": "Wooden",
     "size": "L",
     "color": "",
-    "price_(â¹)": 1400,
+    "price": 1400,
     "in_stock": true,
     "description": "Comfort and elegance woven into a bag, comes in custom sizes and colours of your choice!"
   },
@@ -155,7 +155,7 @@
     "category": "Wooden",
     "size": "S",
     "color": "",
-    "price_(â¹)": 750,
+    "price": 750,
     "in_stock": true,
     "description": "The show stopping bag that can redefine your fashion while providing space for that extra shopping!"
   },
@@ -165,7 +165,7 @@
     "category": "Wooden",
     "size": "M",
     "color": "",
-    "price_(â¹)": 950,
+    "price": 950,
     "in_stock": true,
     "description": "The show stopping bag that can redefine your fashion while providing space for that extra shopping!"
   },
@@ -175,7 +175,7 @@
     "category": "Wooden",
     "size": "S",
     "color": "",
-    "price_(â¹)": 850,
+    "price": 850,
     "in_stock": true,
     "description": "Ultra stylish bag, a perfect head turner!"
   },
@@ -185,7 +185,7 @@
     "category": "Wooden",
     "size": "M",
     "color": "",
-    "price_(â¹)": 1100,
+    "price": 1100,
     "in_stock": true,
     "description": "Ultra stylish bag, a perfect head turner!"
   },
@@ -195,7 +195,7 @@
     "category": "Wooden",
     "size": "L",
     "color": "",
-    "price_(â¹)": 1400,
+    "price": 1400,
     "in_stock": true,
     "description": "Ultra stylish bag, a perfect head turner!"
   },
@@ -205,7 +205,7 @@
     "category": "Pooja",
     "size": "S",
     "color": "",
-    "price_(â¹)": 850,
+    "price": 850,
     "in_stock": true,
     "description": "The right bag for those days you wish to be extra charming "
   },
@@ -215,7 +215,7 @@
     "category": "Pooja",
     "size": "M",
     "color": "",
-    "price_(â¹)": 1000,
+    "price": 1000,
     "in_stock": true,
     "description": "The right bag for those days you wish to be extra charming "
   }

@@ -1,4 +1,4 @@
-product_id,product_name,category,size,color,price (â¹),in_stock,description
+product_id,product_name,category,size,color,price,in_stock,description
 BAG001,Tote Bag,Tote,M,MULTI,1200,True,"A stylish everyday Tote bag to carry your essentials, available in custom color in medium and large sizes"
 BAG001,Tote Bag,Tote,L,MULTI,1400,False,"A stylish everyday Tote bag to carry your essentials, available in custom color in medium and large sizes"
 BAG002,Clutch Koodai,Clutch,S,MULTI,700,True,An effortless style statement to complete your look
