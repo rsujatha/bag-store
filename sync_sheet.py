@@ -55,12 +55,15 @@ def main():
 
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-    try:
-        tabs = fetch_tabs(SHEET_ID)
-        print(f"    Tabs     : {[t['title'] for t in tabs]}")
-    except Exception as e:
-        print(f"    ⚠️  Tab discovery failed ({e}), using first sheet only.")
-        tabs = [{"title": "Sheet1", "gid": "0"}]
+    #try:
+    #    tabs = fetch_tabs(SHEET_ID)
+    #    print(f"    Tabs     : {[t['title'] for t in tabs]}")
+    #except Exception as e:
+    #    print(f"    ⚠️  Tab discovery failed ({e}), using first sheet only.")
+    #    tabs = [{"title": "Sheet1", "gid": "0"}]
+
+    gid = os.environ.get("SHEET_GID", "0")
+    tabs = [{"title": "Sheet1", "gid": gid}]
 
     all_dfs: dict[str, pd.DataFrame] = {}
 
