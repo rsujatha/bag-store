@@ -6,6 +6,7 @@
     "size": "M",
     "color": "MULTI",
     "price": 1200,
+    "image_url": "Biscuit Knot Tote.jpg, White Tote Bag.jpg, Dimensions Chart.png",
     "in_stock": true,
     "description": "A stylish everyday Tote bag to carry your essentials, available in custom color in medium and large sizes"
   },
@@ -16,6 +17,7 @@
     "size": "L",
     "color": "MULTI",
     "price": 1400,
+    "image_url": "",
     "in_stock": false,
     "description": "A stylish everyday Tote bag to carry your essentials, available in custom color in medium and large sizes"
   },
@@ -26,6 +28,7 @@
     "size": "S",
     "color": "MULTI",
     "price": 700,
+    "image_url": "",
     "in_stock": true,
     "description": "An effortless style statement to complete your look"
   },
@@ -36,6 +39,7 @@
     "size": "M",
     "color": "MULTI",
     "price": 1000,
+    "image_url": "Brown Model Clutch.jpeg",
     "in_stock": true,
     "description": "An effortless style statement to complete your look"
   },
@@ -46,6 +50,7 @@
     "size": "S",
     "color": "MULTI",
     "price": 900,
+    "image_url": "",
     "in_stock": true,
     "description": "A timeless style statement with elegant handle"
   },
@@ -56,6 +61,7 @@
     "size": "M",
     "color": "MULTI",
     "price": 1200,
+    "image_url": "Blue Sling.jpeg",
     "in_stock": true,
     "description": "A timeless style statement with elegant handle"
   },
@@ -66,6 +72,7 @@
     "size": "S",
     "color": "MULTI",
     "price": 1100,
+    "image_url": "",
     "in_stock": true,
     "description": "A timeless style statement with elegant handle"
   },
@@ -76,6 +83,7 @@
     "size": "M",
     "color": "MULTI",
     "price": 1400,
+    "image_url": "",
     "in_stock": true,
     "description": "A timeless style statement with elegant handle"
   },
@@ -86,6 +94,7 @@
     "size": "S",
     "color": "",
     "price": 650,
+    "image_url": "",
     "in_stock": true,
     "description": "Your everyday travel buddy, for that sturdy yet cute look"
   },
@@ -96,6 +105,7 @@
     "size": "M",
     "color": "",
     "price": 850,
+    "image_url": "Pink Baset.jpeg",
     "in_stock": true,
     "description": "Your everyday travel buddy, for that sturdy yet cute look"
   },
@@ -106,6 +116,7 @@
     "size": "L",
     "color": "",
     "price": 1100,
+    "image_url": "",
     "in_stock": true,
     "description": "Your everyday travel buddy, for that sturdy yet cute look"
   },
@@ -116,6 +127,7 @@
     "size": "S",
     "color": "",
     "price": 750,
+    "image_url": "",
     "in_stock": true,
     "description": "Comfort and elegance woven into a bag, comes in custom sizes and colours of your choice!"
   },
@@ -126,6 +138,7 @@
     "size": "M",
     "color": "",
     "price": 1000,
+    "image_url": "Yellow Wooden Handle.jpeg",
     "in_stock": true,
     "description": "Comfort and elegance woven into a bag, comes in custom sizes and colours of your choice!"
   },
@@ -136,6 +149,7 @@
     "size": "L",
     "color": "",
     "price": 1400,
+    "image_url": "",
     "in_stock": true,
     "description": "Comfort and elegance woven into a bag, comes in custom sizes and colours of your choice!"
   },
@@ -146,6 +160,7 @@
     "size": "S",
     "color": "",
     "price": 750,
+    "image_url": "",
     "in_stock": true,
     "description": "The show stopping bag that can redefine your fashion while providing space for that extra shopping!"
   },
@@ -156,6 +171,7 @@
     "size": "M",
     "color": "",
     "price": 950,
+    "image_url": "",
     "in_stock": true,
     "description": "The show stopping bag that can redefine your fashion while providing space for that extra shopping!"
   },
@@ -166,6 +182,7 @@
     "size": "S",
     "color": "",
     "price": 850,
+    "image_url": "",
     "in_stock": true,
     "description": "Ultra stylish bag, a perfect head turner!"
   },
@@ -176,6 +193,7 @@
     "size": "M",
     "color": "",
     "price": 1100,
+    "image_url": "Eye Handle 1.jpeg, Eye Handle 2.png, Eye Handle 3.png, Dimensions Chart.png",
     "in_stock": true,
     "description": "Ultra stylish bag, a perfect head turner!"
   },
@@ -186,6 +204,7 @@
     "size": "L",
     "color": "",
     "price": 1400,
+    "image_url": "",
     "in_stock": true,
     "description": "Ultra stylish bag, a perfect head turner!"
   },
@@ -196,6 +215,7 @@
     "size": "S",
     "color": "",
     "price": 850,
+    "image_url": "",
     "in_stock": true,
     "description": "The right bag for those days you wish to be extra charming "
   },
@@ -206,6 +226,7 @@
     "size": "M",
     "color": "",
     "price": 1000,
+    "image_url": "",
     "in_stock": true,
     "description": "The right bag for those days you wish to be extra charming "
   }
