@@ -88,10 +88,19 @@ function ProductCard({ product, allImages, onNavigate }) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {allImages.length > 0
-        ? <img src={allImages[imgIndex]} alt={product.product_name} />
-        : <PlaceholderImage name={product.product_name} />
-      }
+      <div className="card-image-stack">
+        {allImages.length > 0
+          ? allImages.map((src, i) => (
+              <img
+                key={src}
+                src={src}
+                alt={product.product_name}
+                className={`stack-img ${i === imgIndex ? 'visible' : ''}`}
+              />
+            ))
+          : <PlaceholderImage name={product.product_name} />
+        }
+      </div>
       {allImages.length > 1 && (
         <div className="image-dots">
           {allImages.map((_, i) => (
