@@ -9,7 +9,7 @@ import requests
 
 FOLDER_ID  = os.environ.get("DRIVE_FOLDER_ID", "1P_ovMrHrJGvChuXiVMz5CDt0UFC79feZ")
 API_KEY    = os.environ.get("GOOGLE_API_KEY")
-OUTPUT_DIR = os.path.join("data", "images")
+OUTPUT_DIR = os.path.join("public", "images")
 
 IMAGE_MIME_TYPES = {
     "image/jpeg", "image/png", "image/webp", "image/gif"
