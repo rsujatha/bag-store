@@ -36,6 +36,8 @@ jobs:
         run: python sync_sheet.py
 
       - name: Sync Drive images 
+        env:
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
         run: python sync_images.py
 
       - name: Commit updated data files
