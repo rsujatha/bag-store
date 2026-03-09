@@ -1,21 +1,19 @@
 """
 sync_sheet.py
 Downloads a publicly-shared Google Sheet (no API key required).
-Works for any sheet shared as "Anyone with the link can view".
 Also writes public/catalog.json for the React frontend.
 """
 
 import os
 import io
-import re
 import json
 import requests
 import pandas as pd
 
 SHEET_ID   = os.environ.get("SHEET_ID", "19y4Goolws3QoInCJxxjVv_2gzkvi9SbHOjBxZ808DGs")
 OUTPUT_DIR = os.environ.get("OUTPUT_DIR", "data")
-FORMAT     = os.environ.get("OUTPUT_FORMAT", "both")  # csv | xlsx | both
-SHEET_GID  = "34655845"   # gid of the google sheet
+FORMAT     = os.environ.get("OUTPUT_FORMAT", "both")
+SHEET_GID  = "34655845"
 
 
 def export_url(sheet_id: str, gid: str = "0") -> str:
@@ -25,6 +23,22 @@ def export_url(sheet_id: str, gid: str = "0") -> str:
     )
 
 
+def fix_image_urls(val: str) -> list[str]:
+    """
+    Takes a raw image_url cell value (possibly comma-separated filenames)
+    and returns a list of proper /images/filename.jpg paths.
+    """
+    if not val or str(val).strip() == "":
+        return []
+    parts = [p.strip() for p in str(val).split(",") if p.strip()]
+    result = []
+    for p in parts:
+        if not p.startswith("/"):
+            p = f"/images/{p}"
+        result.append(p)
+    return result
+
+
 def main():
     print("🔄  Starting Google Sheets sync…")
     print(f"    Sheet ID : {SHEET_ID}")
@@ -32,9 +46,7 @@ def main():
 
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-    gid = SHEET_GID
-    tabs = [{"title": "Sheet1", "gid": gid}]
-
+    tabs = [{"title": "Sheet1", "gid": SHEET_GID}]
     all_dfs: dict[str, pd.DataFrame] = {}
 
     for tab in tabs:
@@ -48,11 +60,8 @@ def main():
             continue
 
         df = pd.read_csv(io.StringIO(resp.text))
-
-        # Drop completely empty columns (e.g. trailing comma in header)
         df = df.dropna(axis=1, how="all")
         df.columns = df.columns.str.strip()
-
         print(f"    ✓ {len(df)} rows × {len(df.columns)} cols")
         all_dfs[title] = df
 
@@ -66,25 +75,24 @@ def main():
             df.to_excel(path, index=False)
             print(f"    → {path}")
 
-    # ── Write public/catalog.json for React ──────────────────────────────────
+    # ── Write public/catalog.json ─────────────────────────────────────────
     if all_dfs:
         df = list(all_dfs.values())[0]
-
-        # Normalise column names to lowercase with underscores
         df.columns = [c.lower().strip().replace(" ", "_") for c in df.columns]
-
-        # Fill NaN with empty string for JSON safety
         df = df.fillna("")
 
-        # Convert in_stock to boolean
         if "in_stock" in df.columns:
             df["in_stock"] = df["in_stock"].apply(
                 lambda x: str(x).strip().upper() in ("TRUE", "YES", "1", "Y")
             )
 
-        # Convert price to float where possible
         if "price" in df.columns:
             df["price"] = pd.to_numeric(df["price"], errors="coerce").fillna(0)
+
+        # Convert image_url string → list of /images/... paths
+        if "image_url" in df.columns:
+            df["images"] = df["image_url"].apply(fix_image_urls)
+            df = df.drop(columns=["image_url"])
 
         products = df.to_dict(orient="records")
 
