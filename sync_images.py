@@ -1,75 +1,57 @@
 """
 sync_images.py
 Downloads all images from a publicly shared Google Drive folder
-into data/images/ with no API key required.
+using the Google Drive API v3 with a free API key.
 """
 
 import os
-import re
 import requests
 
 FOLDER_ID  = os.environ.get("DRIVE_FOLDER_ID", "1P_ovMrHrJGvChuXiVMz5CDt0UFC79feZ")
+API_KEY    = os.environ.get("GOOGLE_API_KEY")
 OUTPUT_DIR = os.path.join("data", "images")
 
-IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".gif"}
+IMAGE_MIME_TYPES = {
+    "image/jpeg", "image/png", "image/webp", "image/gif"
+}
 
 
-def get_file_list(folder_id: str) -> list[dict]:
-    """Scrape the public Drive folder page to get file ids and names."""
-    url = f"https://drive.google.com/drive/folders/{folder_id}"
-    resp = requests.get(url, timeout=30)
-    resp.raise_for_status()
-
-    # Extract file entries: ["filename.jpg", ... , "FILE_ID", ...]
-    # Drive embeds file metadata as JSON-like arrays in the page source
-    entries = re.findall(
-        r'\["([^"]+\.(?:jpg|jpeg|png|webp|gif))",null,"([A-Za-z0-9_-]{25,})"',
-        resp.text,
-        re.IGNORECASE,
-    )
-
-    # Also try the reverse order pattern Drive sometimes uses
-    if not entries:
-        entries_rev = re.findall(
-            r'"([A-Za-z0-9_-]{25,})"[^"]*"([^"]+\.(?:jpg|jpeg|png|webp|gif))"',
-            resp.text,
-            re.IGNORECASE,
-        )
-        entries = [(name, fid) for fid, name in entries_rev]
-
-    files = [{"name": name, "id": fid} for name, fid in entries]
-
-    # Deduplicate by id
-    seen = set()
-    unique = []
-    for f in files:
-        if f["id"] not in seen:
-            seen.add(f["id"])
-            unique.append(f)
-
-    return unique
-
-
-def download_file(file_id: str, dest_path: str) -> bool:
-    """Download a single Drive file by ID."""
-    url = f"https://drive.google.com/uc?export=download&id={file_id}"
-    session = requests.Session()
-
-    resp = session.get(url, stream=True, timeout=60)
-
-    # Handle the virus-scan warning page for large files
-    token = None
-    for key, value in resp.cookies.items():
-        if key.startswith("download_warning"):
-            token = value
-            break
-
-    if token:
-        resp = session.get(
-            url, params={"confirm": token}, stream=True, timeout=60
-        )
+def get_file_list(folder_id: str, api_key: str) -> list[dict]:
+    """List all files in the public Drive folder via API v3."""
+    url = "https://www.googleapis.com/drive/v3/files"
+    params = {
+        "q": f"'{folder_id}' in parents and trashed = false",
+        "fields": "files(id, name, mimeType)",
+        "key": api_key,
+        "pageSize": 1000,
+        "supportsAllDrives": True,
+        "includeItemsFromAllDrives": True,
+    }
+    resp = requests.get(url, params=params, timeout=30)
+    print(f"    API status  : {resp.status_code}")
 
     if resp.status_code != 200:
+        print(f"    API error   : {resp.text}")
+        return []
+
+    data = resp.json()
+    all_files = data.get("files", [])
+    print(f"    Total files : {len(all_files)}")
+    for f in all_files:
+        print(f"      - {f['name']} ({f['mimeType']})")
+
+    return [f for f in all_files if f.get("mimeType") in IMAGE_MIME_TYPES]
+
+
+def download_file(file_id: str, dest_path: str, api_key: str) -> bool:
+    """Download a single Drive file by ID."""
+    url = f"https://www.googleapis.com/drive/v3/files/{file_id}"
+    params = {"alt": "media", "key": api_key}
+    session = requests.Session()
+    resp = session.get(url, params=params, stream=True, timeout=60)
+
+    if resp.status_code != 200:
+        print(f"      Download error: {resp.status_code} {resp.text[:200]}")
         return False
 
     with open(dest_path, "wb") as f:
@@ -82,22 +64,26 @@ def main():
     print("🖼️   Starting Google Drive image sync…")
     print(f"    Folder ID : {FOLDER_ID}")
     print(f"    Output    : {OUTPUT_DIR}/")
+    print(f"    API Key   : {'set' if API_KEY else 'NOT SET'}")
+
+    if not API_KEY:
+        print("  ❌  GOOGLE_API_KEY secret is not set.")
+        return
 
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
     print("\n  Fetching file list…")
     try:
-        files = get_file_list(FOLDER_ID)
+        files = get_file_list(FOLDER_ID, API_KEY)
     except Exception as e:
         print(f"  ❌  Could not fetch folder listing: {e}")
         return
 
     if not files:
         print("  ⚠️  No image files found in folder.")
-        print("      Make sure the folder is shared as 'Anyone with the link can view'.")
         return
 
-    print(f"  Found {len(files)} image(s)\n")
+    print(f"\n  {len(files)} image(s) to download\n")
 
     downloaded = 0
     skipped    = 0
@@ -105,14 +91,13 @@ def main():
     for f in files:
         dest = os.path.join(OUTPUT_DIR, f["name"])
 
-        # Skip if already downloaded (saves bandwidth on re-runs)
         if os.path.exists(dest):
-            print(f"  ⏭  Skipped (already exists): {f['name']}")
+            print(f"  ⏭  Skipped (exists): {f['name']}")
             skipped += 1
             continue
 
-        print(f"  ↓  Downloading: {f['name']} …", end=" ", flush=True)
-        ok = download_file(f["id"], dest)
+        print(f"  ↓  {f['name']} …", end=" ", flush=True)
+        ok = download_file(f["id"], dest, API_KEY)
         if ok:
             size_kb = os.path.getsize(dest) // 1024
             print(f"✓ ({size_kb} KB)")
