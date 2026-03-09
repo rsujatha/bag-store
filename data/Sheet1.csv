@@ -2,7 +2,7 @@ product_id,product_name,category,size,color,price,image_url,in_stock,description
 BAG001,Tote Bag,Tote,M,MULTI,1200,"Biscuit Knot Tote.jpg, White Tote Bag.jpg, Dimensions Chart.png",True,"A stylish everyday Tote bag to carry your essentials, available in custom color in medium and large sizes"
 BAG001,Tote Bag,Tote,L,MULTI,1400,,False,"A stylish everyday Tote bag to carry your essentials, available in custom color in medium and large sizes"
 BAG002,Clutch Koodai,Clutch,S,MULTI,700,,True,An effortless style statement to complete your look
-BAG002,Clutch Koodai,Clutch,M,MULTI,1000,BrownModelClutch.jpeg,True,An effortless style statement to complete your look
+BAG002,Clutch Koodai,Clutch,M,MULTI,1000,/images/BrownModelClutch.jpeg,True,An effortless style statement to complete your look
 BAG003,Sling with chain,Sling,S,MULTI,900,,True,A timeless style statement with elegant handle
 BAG003,Sling with chain,Sling,M,MULTI,1200,Blue Sling.jpeg,True,A timeless style statement with elegant handle
 BAG003,Sling with leather,Sling,S,MULTI,1100,,True,A timeless style statement with elegant handle
