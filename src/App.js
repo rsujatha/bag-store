@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ShoppingBag, Heart, ArrowRight, ArrowLeft, Tag, Layers } from 'lucide-react';
 import './App.css';
 
-// ── Placeholder image when no image_url is provided ─────────────────────────
+// ── Placeholder ───────────────────────────────────────────────────────────────
 function PlaceholderImage({ name, className }) {
   return (
     <div className={`placeholder-img ${className || ''}`}>
@@ -12,14 +12,13 @@ function PlaceholderImage({ name, className }) {
   );
 }
 
-// ── Navbar ───────────────────────────────────────────────────────────────────
+// ── Navbar ────────────────────────────────────────────────────────────────────
 function Navbar({ currentPage, onNavigate }) {
   const navItems = [
     { label: 'Shop',     hash: 'shop'     },
     { label: 'Blog',     hash: 'blog'     },
     { label: 'About Us', hash: 'about-us' },
   ];
-
   return (
     <nav className="navbar">
       <div className="navbar-inner">
@@ -28,11 +27,8 @@ function Navbar({ currentPage, onNavigate }) {
           <div className="navbar-logo-icon-wrap">
             <img src="/images/kasvi-logo.jpeg" alt="" className="navbar-logo-img" />
           </div>
-          <span className="navbar-logo-text" style={{ fontSize: '36px', fontWeight: 'bold' }}>
-            KASVI
-          </span>
+          <span className="navbar-logo-text" style={{ fontSize: '36px', fontWeight: 'bold' }}>KASVI</span>
         </a>
-
         <ul className="navbar-links">
           {navItems.map((item) => (
             <li key={item.hash}>
@@ -44,14 +40,10 @@ function Navbar({ currentPage, onNavigate }) {
             </li>
           ))}
         </ul>
-
         <div className="navbar-actions">
-          <button className="navbar-action" aria-label="Wishlist">
-            <Heart size={18} /><span>Wishlist</span>
-          </button>
+          <button className="navbar-action" aria-label="Wishlist"><Heart size={18} /><span>Wishlist</span></button>
           <button className="navbar-action" aria-label="Shopping bag">
-            <ShoppingBag size={18} /><span>Bag</span>
-            <span className="navbar-badge">0</span>
+            <ShoppingBag size={18} /><span>Bag</span><span className="navbar-badge">0</span>
           </button>
         </div>
       </div>
@@ -59,7 +51,7 @@ function Navbar({ currentPage, onNavigate }) {
   );
 }
 
-// ── Home Page ────────────────────────────────────────────────────────────────
+// ── Home ──────────────────────────────────────────────────────────────────────
 function HomePage({ onNavigate }) {
   return (
     <header className="hero">
@@ -72,19 +64,71 @@ function HomePage({ onNavigate }) {
   );
 }
 
-// ── Shop Page ────────────────────────────────────────────────────────────────
+// ── Shop Card with hover image cycling ───────────────────────────────────────
+function ProductCard({ product, allImages, onNavigate }) {
+  const [imgIndex, setImgIndex] = useState(0);
+  const intervalRef = useRef(null);
+
+  const handleMouseEnter = () => {
+    if (allImages.length <= 1) return;
+    intervalRef.current = setInterval(() => {
+      setImgIndex((i) => (i + 1) % allImages.length);
+    }, 800);
+  };
+
+  const handleMouseLeave = () => {
+    clearInterval(intervalRef.current);
+    setImgIndex(0);
+  };
+
+  return (
+    <div
+      className="product-card"
+      onClick={() => onNavigate('product', product.product_id)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      {allImages.length > 0
+        ? <img src={allImages[imgIndex]} alt={product.product_name} />
+        : <PlaceholderImage name={product.product_name} />
+      }
+      {allImages.length > 1 && (
+        <div className="image-dots">
+          {allImages.map((_, i) => (
+            <span key={i} className={`dot ${i === imgIndex ? 'active' : ''}`} />
+          ))}
+        </div>
+      )}
+      <div className="product-card-body">
+        <div className="product-card-header">
+          <h3>{product.product_name}</h3>
+          {!product.in_stock && <span className="out-of-stock-badge">Out of stock</span>}
+        </div>
+        <div className="product-meta">
+          {product.category && (
+            <span className="product-meta-tag"><Layers size={12} /> {product.category}</span>
+          )}
+        </div>
+        <p className="product-price">₹{Number(product.price).toLocaleString('en-IN')}</p>
+        <button className="view-button"
+          onClick={(e) => { e.stopPropagation(); onNavigate('product', product.product_id); }}>
+          View Details <ArrowRight size={14} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ── Shop Page ─────────────────────────────────────────────────────────────────
 function ShopPage({ onNavigate }) {
-  const [products, setProducts]   = useState([]);
-  const [loading, setLoading]     = useState(true);
-  const [error, setError]         = useState(null);
-  const [filter, setFilter]       = useState('All');
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading]   = useState(true);
+  const [error, setError]       = useState(null);
+  const [filter, setFilter]     = useState('All');
 
   useEffect(() => {
     fetch('/catalog.json')
-      .then((r) => {
-        if (!r.ok) throw new Error('Could not load catalog.json');
-        return r.json();
-      })
+      .then((r) => { if (!r.ok) throw new Error('Could not load catalog.json'); return r.json(); })
       .then((data) => { setProducts(data); setLoading(false); })
       .catch((e) => { setError(e.message); setLoading(false); });
   }, []);
@@ -93,20 +137,29 @@ function ShopPage({ onNavigate }) {
   if (error)   return <div className="page-status error">⚠️ {error}</div>;
   if (!products.length) return <div className="page-status">No products found.</div>;
 
-  // Unique categories for filter bar
   const categories = ['All', ...new Set(products.map((p) => p.category).filter(Boolean))];
 
-  // Deduplicate by product_id — show one card per unique product
-  const seen = new Set();
-  const uniqueProducts = products.filter((p) => {
-    if (seen.has(p.product_id)) return false;
-    seen.add(p.product_id);
-    return true;
+  // Deduplicate by product_id — pick first row with an image, collect ALL images across all rows
+  const productMap = {};
+  products.forEach((p) => {
+    if (!productMap[p.product_id]) {
+      productMap[p.product_id] = { ...p, _allImages: [] };
+    }
+    // Collect all images from every variant row
+    (p.images || []).forEach((img) => {
+      if (!productMap[p.product_id]._allImages.includes(img)) {
+        productMap[p.product_id]._allImages.push(img);
+      }
+    });
+    // Use this row's name/price if current entry has no image yet
+    if ((!productMap[p.product_id].images || productMap[p.product_id].images.length === 0)
+        && p.images && p.images.length > 0) {
+      productMap[p.product_id] = { ...productMap[p.product_id], ...p, _allImages: productMap[p.product_id]._allImages };
+    }
   });
 
-  const visible = filter === 'All'
-    ? uniqueProducts
-    : uniqueProducts.filter((p) => p.category === filter);
+  const uniqueProducts = Object.values(productMap);
+  const visible = filter === 'All' ? uniqueProducts : uniqueProducts.filter((p) => p.category === filter);
 
   return (
     <>
@@ -114,84 +167,52 @@ function ShopPage({ onNavigate }) {
         <h2>Shop</h2>
         <p>Explore our curated collection of handcrafted bags.</p>
       </header>
-
-      {/* Category filter pills */}
       <div className="filter-bar">
         {categories.map((cat) => (
-          <button
-            key={cat}
-            className={`filter-pill ${filter === cat ? 'active' : ''}`}
-            onClick={() => setFilter(cat)}
-          >
-            {cat}
-          </button>
+          <button key={cat} className={`filter-pill ${filter === cat ? 'active' : ''}`}
+                  onClick={() => setFilter(cat)}>{cat}</button>
         ))}
       </div>
-
       <main className="product-grid">
         {visible.map((product) => (
-          <div key={product.product_id} className="product-card"
-               onClick={() => onNavigate('product', product.product_id)}>
-
-            {/* Image / Placeholder */}
-            {product.image_url
-              ? <img src={product.image_url} alt={product.product_name} />
-              : <PlaceholderImage name={product.product_name} />
-            }
-
-            <div className="product-card-body">
-              <div className="product-card-header">
-                <h3>{product.product_name}</h3>
-                {!product.in_stock && (
-                  <span className="out-of-stock-badge">Out of stock</span>
-                )}
-              </div>
-
-              <div className="product-meta">
-                {product.category && (
-                  <span className="product-meta-tag">
-                    <Layers size={12} /> {product.category}
-                  </span>
-                )}
-              </div>
-
-              <p className="product-price">
-                ₹{Number(product.price).toLocaleString('en-IN')}
-              </p>
-
-              <button
-                className="view-button"
-                onClick={(e) => { e.stopPropagation(); onNavigate('product', product.product_id); }}
-              >
-                View Details <ArrowRight size={14} />
-              </button>
-            </div>
-          </div>
+          <ProductCard
+            key={product.product_id}
+            product={product}
+            allImages={product._allImages}
+            onNavigate={onNavigate}
+          />
         ))}
       </main>
     </>
   );
 }
 
-// ── Product Detail Page ──────────────────────────────────────────────────────
+// ── Horizontal Image Gallery ──────────────────────────────────────────────────
+function ImageGallery({ images, productName }) {
+  if (!images || images.length === 0) {
+    return <PlaceholderImage name={productName} className="large" />;
+  }
+  return (
+    <div className="image-gallery">
+      {images.map((src, i) => (
+        <img key={i} src={src} alt={`${productName} ${i + 1}`} />
+      ))}
+    </div>
+  );
+}
+
+// ── Product Detail Page ───────────────────────────────────────────────────────
 function ProductPage({ productId, onNavigate }) {
-  const [variants, setVariants] = useState([]);
-  const [loading, setLoading]   = useState(true);
-  const [selectedSize,  setSelectedSize]  = useState(null);
-  const [selectedColor, setSelectedColor] = useState(null);
+  const [variants, setVariants]         = useState([]);
+  const [loading, setLoading]           = useState(true);
+  const [selectedVariantIdx, setSelectedVariantIdx] = useState(0);
 
   useEffect(() => {
     fetch('/catalog.json')
       .then((r) => r.json())
       .then((data) => {
-        const rows = data.filter(
-          (p) => String(p.product_id) === String(productId)
-        );
+        const rows = data.filter((p) => String(p.product_id) === String(productId));
         setVariants(rows);
-        if (rows.length) {
-          setSelectedSize(rows[0].size   || null);
-          setSelectedColor(rows[0].color || null);
-        }
         setLoading(false);
       })
       .catch(() => setLoading(false));
@@ -200,28 +221,29 @@ function ProductPage({ productId, onNavigate }) {
   if (loading) return <div className="page-status">Loading…</div>;
   if (!variants.length) return <div className="page-status">Product not found.</div>;
 
-  const product  = variants[0];
-  const sizes    = [...new Set(variants.map((v) => v.size).filter(Boolean))];
-  const colors   = [...new Set(variants.map((v) => v.color).filter(Boolean))];
+  const activeVariant = variants[selectedVariantIdx];
 
-  // Find the variant matching selected size + color
-  const activeVariant = variants.find(
-    (v) => v.size === selectedSize && v.color === selectedColor
-  ) || variants[0];
+  // Group variants by product_name to create option buttons
+  const optionGroups = [];
+  const seenNames = {};
+  variants.forEach((v, idx) => {
+    const key = `${v.product_name}__${v.size}`;
+    if (!seenNames[key]) {
+      seenNames[key] = true;
+      optionGroups.push({ variant: v, idx });
+    }
+  });
 
   const makePayment = async () => {
     try {
-      const response = await fetch('http://localhost:5001/create-order', {
+      const resp = await fetch('http://localhost:5001/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ amount: activeVariant.price }),
       });
-      const data = await response.json();
-      if (data.id) {
-        alert(`Order Created! ID: ${data.id}`);
-      } else {
-        alert('Server reached, but Razorpay keys are missing or invalid.');
-      }
+      const data = await resp.json();
+      if (data.id) alert(`Order Created! ID: ${data.id}`);
+      else alert('Server reached, but Razorpay keys are missing or invalid.');
     } catch {
       alert('Could not connect to the server.');
     }
@@ -229,84 +251,59 @@ function ProductPage({ productId, onNavigate }) {
 
   return (
     <div className="product-detail">
-      {/* Back button */}
       <button className="back-button" onClick={() => onNavigate('shop')}>
         <ArrowLeft size={16} /> Back to Shop
       </button>
 
       <div className="product-detail-inner">
 
-        {/* Image */}
+        {/* Horizontal scrollable image gallery for active variant */}
         <div className="product-detail-image">
-          {activeVariant.image_url
-            ? <img src={activeVariant.image_url} alt={product.product_name} />
-            : <PlaceholderImage name={product.product_name} className="large" />
-          }
+          <ImageGallery images={activeVariant.images} productName={activeVariant.product_name} />
         </div>
 
-        {/* Info */}
         <div className="product-detail-info">
-          <span className="product-detail-category">
-            <Tag size={13} /> {product.category}
-          </span>
-          <h2>{product.product_name}</h2>
+          <span className="product-detail-category"><Tag size={13} /> {activeVariant.category}</span>
+          <h2>{activeVariant.product_name}</h2>
+          <p className="product-detail-price">₹{Number(activeVariant.price).toLocaleString('en-IN')}</p>
 
-          <p className="product-detail-price">
-            ₹{Number(activeVariant.price).toLocaleString('en-IN')}
-          </p>
-
-          {product.description && (
-            <p className="product-detail-desc">{product.description}</p>
+          {activeVariant.description && (
+            <p className="product-detail-desc">{activeVariant.description}</p>
           )}
 
-          {/* Size selector */}
-          {sizes.length > 0 && (
-            <div className="variant-section">
-              <p className="variant-label">Size</p>
-              <div className="variant-options">
-                {sizes.map((s) => (
-                  <button
-                    key={s}
-                    className={`variant-btn ${selectedSize === s ? 'active' : ''}`}
-                    onClick={() => setSelectedSize(s)}
-                  >
-                    {s}
-                  </button>
-                ))}
-              </div>
+          {/* Variant option buttons — each shows name + size, clicking switches images */}
+          <div className="variant-section">
+            <p className="variant-label">Options</p>
+            <div className="variant-options">
+              {optionGroups.map(({ variant, idx }) => (
+                <button
+                  key={idx}
+                  className={`variant-btn ${selectedVariantIdx === idx ? 'active' : ''}`}
+                  onClick={() => setSelectedVariantIdx(idx)}
+                >
+                  {variant.product_name !== variants[0].product_name
+                    ? `${variant.product_name} – ${variant.size}`
+                    : variant.size}
+                </button>
+              ))}
             </div>
-          )}
+          </div>
 
-          {/* Color selector */}
-          {colors.length > 0 && (
+          {/* Color if present */}
+          {activeVariant.color && (
             <div className="variant-section">
               <p className="variant-label">Color</p>
-              <div className="variant-options">
-                {colors.map((c) => (
-                  <button
-                    key={c}
-                    className={`variant-btn ${selectedColor === c ? 'active' : ''}`}
-                    onClick={() => setSelectedColor(c)}
-                  >
-                    {c}
-                  </button>
-                ))}
-              </div>
+              <span className="product-meta-tag">{activeVariant.color}</span>
             </div>
           )}
 
           <div className="product-detail-stock">
             {activeVariant.in_stock
               ? <span className="in-stock">✓ In Stock</span>
-              : <span className="out-of-stock">Out of Stock</span>
-            }
+              : <span className="out-of-stock">Out of Stock</span>}
           </div>
 
-          <button
-            className="buy-button"
-            disabled={!activeVariant.in_stock}
-            onClick={makePayment}
-          >
+          <button className="buy-button" disabled={!activeVariant.in_stock} onClick={makePayment}>
             Buy Now
           </button>
         </div>
@@ -315,7 +312,7 @@ function ProductPage({ productId, onNavigate }) {
   );
 }
 
-// ── About Page ───────────────────────────────────────────────────────────────
+// ── About ─────────────────────────────────────────────────────────────────────
 function AboutPage() {
   return (
     <section className="about-page">
@@ -338,25 +335,16 @@ function AboutPage() {
           <p>At KASVI, we work directly with artisan communities across Tamil Nadu, ensuring fair wages and preserving the craft for future generations.</p>
         </div>
         <div className="about-values">
-          <div className="about-value-card">
-            <span className="about-value-number">100%</span>
-            <span className="about-value-label">Recycled Materials</span>
-          </div>
-          <div className="about-value-card">
-            <span className="about-value-number">10+</span>
-            <span className="about-value-label">Years of Durability</span>
-          </div>
-          <div className="about-value-card">
-            <span className="about-value-number">100+</span>
-            <span className="about-value-label">Women Artisans</span>
-          </div>
+          <div className="about-value-card"><span className="about-value-number">100%</span><span className="about-value-label">Recycled Materials</span></div>
+          <div className="about-value-card"><span className="about-value-number">10+</span><span className="about-value-label">Years of Durability</span></div>
+          <div className="about-value-card"><span className="about-value-number">100+</span><span className="about-value-label">Women Artisans</span></div>
         </div>
       </div>
     </section>
   );
 }
 
-// ── App root ─────────────────────────────────────────────────────────────────
+// ── App ───────────────────────────────────────────────────────────────────────
 function App() {
   const [currentPage, setCurrentPage] = useState(() => {
     const hash = window.location.hash.replace('#', '');
