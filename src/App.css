@@ -923,3 +923,220 @@ body {
 .product-grid {
   justify-content: center;
 }
+
+/* ── Paste these at the bottom of your existing App.css ── */
+
+/* Filter bar */
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 16px 32px;
+  justify-content: center;
+}
+.filter-pill {
+  padding: 6px 18px;
+  border-radius: 999px;
+  border: 1px solid #c9a84c;
+  background: transparent;
+  color: #c9a84c;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+.filter-pill.active, .filter-pill:hover {
+  background: #c9a84c;
+  color: #0d0b07;
+}
+
+/* Placeholder image */
+.placeholder-img {
+  width: 100%;
+  aspect-ratio: 1;
+  background: #f5f5f0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #bbb;
+  font-size: 12px;
+  text-align: center;
+  padding: 16px;
+}
+.placeholder-img.large {
+  min-height: 380px;
+  border-radius: 8px;
+}
+
+/* Product card */
+.product-card {
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+}
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px #00000022;
+}
+.product-card img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+/* Image cycling dots */
+.image-dots {
+  position: absolute;
+  bottom: 48%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+}
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ffffff88;
+  transition: background 0.3s;
+}
+.dot.active { background: #fff; }
+
+/* Product card body */
+.product-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 4px 0 8px;
+  justify-content: center;
+}
+.product-meta-tag {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #888;
+  background: #f5f5f0;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.out-of-stock-badge {
+  font-size: 11px;
+  background: #fee;
+  color: #c00;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.view-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid #c9a84c;
+  color: #c9a84c;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s;
+  width: 100%;
+  justify-content: center;
+}
+.view-button:hover { background: #c9a84c; color: #0d0b07; }
+
+/* Page status */
+.page-status { text-align: center; padding: 80px 32px; font-size: 16px; color: #888; }
+.page-status.error { color: #c00; }
+
+/* Back button */
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 24px 32px;
+  background: transparent;
+  border: none;
+  color: #c9a84c;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0;
+}
+.back-button:hover { text-decoration: underline; }
+
+/* Product detail layout */
+.product-detail { max-width: 1100px; margin: 0 auto; padding-bottom: 60px; }
+.product-detail-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  padding: 0 32px;
+}
+@media (max-width: 768px) {
+  .product-detail-inner { grid-template-columns: 1fr; }
+}
+
+/* Horizontal scroll image gallery */
+.image-gallery {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 8px;
+  padding-bottom: 8px;
+}
+.image-gallery::-webkit-scrollbar { height: 4px; }
+.image-gallery::-webkit-scrollbar-thumb { background: #c9a84c; border-radius: 2px; }
+.image-gallery img {
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 340px;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 8px;
+  scroll-snap-align: start;
+}
+
+/* Product detail info */
+.product-detail-info { display: flex; flex-direction: column; gap: 12px; }
+.product-detail-category {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.product-detail-info h2 { font-size: 28px; margin: 0; }
+.product-detail-price { font-size: 24px; font-weight: 700; color: #c9a84c; }
+.product-detail-desc { font-size: 15px; color: #555; line-height: 1.7; }
+
+/* Variant selectors */
+.variant-section { margin-top: 8px; }
+.variant-label { font-size: 13px; font-weight: 600; margin-bottom: 8px; color: #333; }
+.variant-options { display: flex; gap: 8px; flex-wrap: wrap; }
+.variant-btn {
+  padding: 6px 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+.variant-btn.active, .variant-btn:hover {
+  border-color: #c9a84c;
+  background: #c9a84c;
+  color: #0d0b07;
+}
+
+/* Stock + buy */
+.product-detail-stock { font-size: 14px; }
+.in-stock  { color: #2a7a2a; font-weight: 600; }
+.out-of-stock { color: #c00; font-weight: 600; }
+.buy-button:disabled { opacity: 0.4; cursor: not-allowed; }
