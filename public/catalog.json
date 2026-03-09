@@ -74,7 +74,7 @@
     ]
   },
   {
-    "product_id": "BAG003",
+    "product_id": "BAG004",
     "product_name": "Sling with leather",
     "category": "Sling",
     "size": "S",
@@ -85,7 +85,7 @@
     "images": []
   },
   {
-    "product_id": "BAG003",
+    "product_id": "BAG004",
     "product_name": "Sling with leather",
     "category": "Sling",
     "size": "M",
@@ -96,7 +96,7 @@
     "images": []
   },
   {
-    "product_id": "BAG004",
+    "product_id": "BAG005",
     "product_name": "Basket Koodai",
     "category": "Basket",
     "size": "S",
@@ -107,7 +107,7 @@
     "images": []
   },
   {
-    "product_id": "BAG004",
+    "product_id": "BAG005",
     "product_name": "Basket Koodai",
     "category": "Basket",
     "size": "M",
@@ -120,7 +120,7 @@
     ]
   },
   {
-    "product_id": "BAG004",
+    "product_id": "BAG005",
     "product_name": "Basket Koodai",
     "category": "Basket",
     "size": "L",
@@ -131,7 +131,7 @@
     "images": []
   },
   {
-    "product_id": "BAG005",
+    "product_id": "BAG006",
     "product_name": "Wooden handle Koodai",
     "category": "Wooden",
     "size": "S",
@@ -142,7 +142,7 @@
     "images": []
   },
   {
-    "product_id": "BAG005",
+    "product_id": "BAG006",
     "product_name": "Wooden handle Koodai",
     "category": "Wooden",
     "size": "M",
@@ -155,7 +155,7 @@
     ]
   },
   {
-    "product_id": "BAG005",
+    "product_id": "BAG006",
     "product_name": "Wooden handle Koodai",
     "category": "Wooden",
     "size": "L",
@@ -166,7 +166,7 @@
     "images": []
   },
   {
-    "product_id": "BAG005",
+    "product_id": "BAG007",
     "product_name": "Kai Koodai",
     "category": "Wooden",
     "size": "S",
@@ -177,7 +177,7 @@
     "images": []
   },
   {
-    "product_id": "BAG005",
+    "product_id": "BAG007",
     "product_name": "Kai Koodai",
     "category": "Wooden",
     "size": "M",
@@ -188,7 +188,7 @@
     "images": []
   },
   {
-    "product_id": "BAG005",
+    "product_id": "BAG008",
     "product_name": "Eye handle Koodai",
     "category": "Wooden",
     "size": "S",
@@ -199,7 +199,7 @@
     "images": []
   },
   {
-    "product_id": "BAG005",
+    "product_id": "BAG008",
     "product_name": "Eye handle Koodai",
     "category": "Wooden",
     "size": "M",
@@ -215,7 +215,7 @@
     ]
   },
   {
-    "product_id": "BAG005",
+    "product_id": "BAG008",
     "product_name": "Eye handle Koodai",
     "category": "Wooden",
     "size": "L",
@@ -226,7 +226,7 @@
     "images": []
   },
   {
-    "product_id": "BAG006",
+    "product_id": "BAG009",
     "product_name": "Cute Pooja Koodai",
     "category": "Others",
     "size": "S",
@@ -237,7 +237,7 @@
     "images": []
   },
   {
-    "product_id": "BAG006",
+    "product_id": "BAG009",
     "product_name": "Cute Pooja Koodai",
     "category": "Pooja",
     "size": "M",
