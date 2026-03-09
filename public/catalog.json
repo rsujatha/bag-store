@@ -190,9 +190,9 @@
     "description": "Ultra stylish bag, a perfect head turner!"
   },
   {
-    "product_id": "BAG005",
+    "product_id": "BAG006",
     "product_name": "Cute Pooja Koodai",
-    "category": "Pooja",
+    "category": "Others",
     "size": "S",
     "color": "",
     "price": 850,
@@ -200,7 +200,7 @@
     "description": "The right bag for those days you wish to be extra charming "
   },
   {
-    "product_id": "BAG005",
+    "product_id": "BAG006",
     "product_name": "Cute Pooja Koodai",
     "category": "Pooja",
     "size": "M",
