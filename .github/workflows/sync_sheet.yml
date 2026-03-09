@@ -17,6 +17,7 @@ jobs:
       SHEET_ID: "19y4Goolws3QoInCJxxjVv_2gzkvi9SbHOjBxZ808DGs"
       OUTPUT_DIR: "data"
       OUTPUT_FORMAT: "both"   # csv | xlsx | both
+      DRIVE_FOLDER_ID: "1P_ovMrHrJGvChuXiVMz5CDt0UFC79feZ"
 
     steps:
       - name: Checkout repository
@@ -33,6 +34,9 @@ jobs:
 
       - name: Sync Google Sheet
         run: python sync_sheet.py
+
+      - name: Sync Drive images 
+        run: python sync_images.py
 
       - name: Commit updated data files
         run: |
