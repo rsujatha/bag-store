@@ -17,13 +17,13 @@ function PlaceholderImage({ name, className }) {
 }
 
 // ── Navbar ────────────────────────────────────────────────────────────────────
-// Replace the entire Navbar function in App.js with this:
-
 function Navbar({ currentPage, onNavigate }) {
   const [user, setUser]             = useState(null);
   const [showModal, setShowModal]   = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showCart, setShowCart]     = useState(false);
   const dropdownRef = useRef(null);
+  const { totalItems } = useCart();
 
   const navItems = [
     { label: 'Shop',     hash: 'shop'     },
@@ -36,7 +36,6 @@ function Navbar({ currentPage, onNavigate }) {
     return unsub;
   }, []);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -76,12 +75,13 @@ function Navbar({ currentPage, onNavigate }) {
               <Heart size={18} /><span>Wishlist</span>
             </button>
 
-            <button className="navbar-action" aria-label="Shopping bag">
+            {/* Bag button — opens cart drawer */}
+            <button className="navbar-action" aria-label="Shopping bag"
+              onClick={() => setShowCart(true)}>
               <ShoppingBag size={18} /><span>Bag</span>
-              <span className="navbar-badge">0</span>
+              {totalItems > 0 && <span className="navbar-badge">{totalItems}</span>}
             </button>
 
-            {/* User menu */}
             {user ? (
               <div className="user-menu" ref={dropdownRef}>
                 <button className="navbar-action" onClick={() => setShowDropdown(!showDropdown)}>
@@ -116,10 +116,10 @@ function Navbar({ currentPage, onNavigate }) {
       </nav>
 
       {showModal && <AuthModal onClose={() => setShowModal(false)} />}
+      {showCart && <CartDrawer onClose={() => setShowCart(false)} onCheckout={() => { setShowCart(false); onNavigate('checkout'); }} />}
     </>
   );
 }
-
 // ── Home ──────────────────────────────────────────────────────────────────────
 function HomePage({ onNavigate }) {
   return (
