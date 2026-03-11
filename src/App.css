@@ -570,7 +570,6 @@ body {
   background: var(--color-primary);
   color: #ffffff;
   border: 2px solid var(--color-primary);
-  border-radius: var(--radius);
   cursor: pointer;
   font-family: var(--font-sans);
   transition: background 0.25s ease;
