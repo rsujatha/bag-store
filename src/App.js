@@ -262,17 +262,164 @@ function ShopPage({ onNavigate }) {
   );
 }
 
-// ── Horizontal Image Gallery ──────────────────────────────────────────────────
+// ── Image Zoom Modal ─────────────────────────────────────────────────────────
+function ImageZoomModal({ src, alt, onClose, onPrevious, onNext, hasPrevious, hasNext }) {
+  const [zoom, setZoom] = useState(1);
+  const maxZoom = 3;
+  const minZoom = 1;
+
+  const handleZoomIn = () => {
+    setZoom((z) => Math.min(z + 0.2, maxZoom));
+  };
+
+  const handleZoomOut = () => {
+    setZoom((z) => Math.max(z - 0.2, minZoom));
+  };
+
+  const handleReset = () => {
+    setZoom(1);
+  };
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        {/* Close button */}
+        <button className="modal-close" onClick={onClose}>✕</button>
+
+        {/* Zoom controls */}
+        <div className="modal-controls">
+          <button className="modal-btn" onClick={handleZoomOut} disabled={zoom === minZoom}>−</button>
+          <span className="modal-zoom-level">{Math.round(zoom * 100)}%</span>
+          <button className="modal-btn" onClick={handleZoomIn} disabled={zoom === maxZoom}>+</button>
+          <button className="modal-btn" onClick={handleReset}>Reset</button>
+        </div>
+
+        {/* Image container */}
+        <div className="modal-image-container">
+          <img
+            src={src}
+            alt={alt}
+            className="modal-image"
+            style={{ transform: `scale(${zoom})` }}
+          />
+        </div>
+
+        {/* Navigation arrows */}
+        {hasPrevious && (
+          <button className="modal-nav modal-nav-prev" onClick={onPrevious}>
+            <ArrowLeft size={24} />
+          </button>
+        )}
+        {hasNext && (
+          <button className="modal-nav modal-nav-next" onClick={onNext}>
+            <ArrowRight size={24} />
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ── Image Gallery with Arrow Navigation ───────────────────────────────────────
 function ImageGallery({ images, productName }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [zoomImageIndex, setZoomImageIndex] = useState(null);
+
   if (!images || images.length === 0) {
     return <PlaceholderImage name={productName} className="large" />;
   }
+
+  const currentImage = images[currentIndex];
+
+  const handlePrevious = () => {
+    setCurrentIndex((i) => (i - 1 + images.length) % images.length);
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((i) => (i + 1) % images.length);
+  };
+
+  const handleImageClick = () => {
+    setZoomImageIndex(currentIndex);
+  };
+
+  const handleZoomPrevious = () => {
+    setZoomImageIndex((i) => (i - 1 + images.length) % images.length);
+  };
+
+  const handleZoomNext = () => {
+    setZoomImageIndex((i) => (i + 1) % images.length);
+  };
+
   return (
-    <div className="image-gallery">
-      {images.map((src, i) => (
-        <img key={i} src={src} alt={`${productName} ${i + 1}`} />
-      ))}
-    </div>
+    <>
+      <div className="image-gallery-container">
+        {/* Main image */}
+        <div className="gallery-main">
+          <img
+            src={currentImage}
+            alt={`${productName} ${currentIndex + 1}`}
+            className="gallery-main-img"
+            onClick={handleImageClick}
+            style={{ cursor: 'pointer' }}
+          />
+
+          {/* Navigation arrows */}
+          {images.length > 1 && (
+            <>
+              <button
+                className="gallery-arrow gallery-arrow-left"
+                onClick={handlePrevious}
+                aria-label="Previous image"
+              >
+                <ArrowLeft size={24} />
+              </button>
+              <button
+                className="gallery-arrow gallery-arrow-right"
+                onClick={handleNext}
+                aria-label="Next image"
+              >
+                <ArrowRight size={24} />
+              </button>
+            </>
+          )}
+
+          {/* Image counter */}
+          {images.length > 1 && (
+            <div className="gallery-counter">
+              {currentIndex + 1} / {images.length}
+            </div>
+          )}
+        </div>
+
+        {/* Thumbnail dots */}
+        {images.length > 1 && (
+          <div className="gallery-dots">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                className={`dot ${i === currentIndex ? 'active' : ''}`}
+                onClick={() => setCurrentIndex(i)}
+                aria-label={`View image ${i + 1}`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Zoom Modal */}
+      {zoomImageIndex !== null && (
+        <ImageZoomModal
+          src={images[zoomImageIndex]}
+          alt={`${productName} ${zoomImageIndex + 1}`}
+          onClose={() => setZoomImageIndex(null)}
+          onPrevious={handleZoomPrevious}
+          onNext={handleZoomNext}
+          hasPrevious={images.length > 1}
+          hasNext={images.length > 1}
+        />
+      )}
+    </>
   );
 }
 
