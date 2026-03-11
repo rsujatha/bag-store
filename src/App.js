@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ShoppingBag, Heart, ArrowRight, ArrowLeft, Tag, Layers, User } from 'lucide-react';
+import { ShoppingBag, Heart, ArrowRight, ArrowLeft, Tag, Layers, User, Menu, X } from 'lucide-react';
 import { auth } from './firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import AuthModal from './AuthModal';
@@ -22,7 +22,9 @@ function Navbar({ currentPage, onNavigate }) {
   const [showModal, setShowModal]   = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showCart, setShowCart]     = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const dropdownRef = useRef(null);
+  const mobileMenuRef = useRef(null);
   const { totalItems } = useCart();
 
   const navItems = [
@@ -40,6 +42,9 @@ function Navbar({ currentPage, onNavigate }) {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setShowDropdown(false);
+      }
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(e.target)) {
+        setShowMobileMenu(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -71,19 +76,20 @@ function Navbar({ currentPage, onNavigate }) {
           </ul>
 
           <div className="navbar-actions">
-            <button className="navbar-action" aria-label="Wishlist">
+            {/* Desktop: Wishlist, Bag, Sign In */}
+            <button className="navbar-action navbar-action-desktop" aria-label="Wishlist">
               <Heart size={18} /><span>Wishlist</span>
             </button>
 
-            {/* Bag button — opens cart drawer */}
-            <button className="navbar-action" aria-label="Shopping bag"
+            {/* Bag button — opens cart drawer (visible on all sizes) */}
+            <button className="navbar-action navbar-action-bag" aria-label="Shopping bag"
               onClick={() => setShowCart(true)}>
-              <ShoppingBag size={18} /><span>Bag</span>
+              <ShoppingBag size={18} /><span className="navbar-action-bag-text">Bag</span>
               {totalItems > 0 && <span className="navbar-badge">{totalItems}</span>}
             </button>
 
             {user ? (
-              <div className="user-menu" ref={dropdownRef}>
+              <div className="user-menu navbar-action-desktop" ref={dropdownRef}>
                 <button className="navbar-action" onClick={() => setShowDropdown(!showDropdown)}>
                   <User size={18} />
                   <span>{user.displayName?.split(' ')[0] || 'Account'}</span>
@@ -106,13 +112,59 @@ function Navbar({ currentPage, onNavigate }) {
                 )}
               </div>
             ) : (
-              <button className="navbar-action" onClick={() => setShowModal(true)}>
+              <button className="navbar-action navbar-action-desktop" onClick={() => setShowModal(true)}>
                 <User size={18} />
                 <span>Sign In</span>
               </button>
             )}
+
+            {/* Mobile: Hamburger menu button */}
+            <button className="mobile-menu-btn" onClick={() => setShowMobileMenu(!showMobileMenu)}>
+              {showMobileMenu ? <X size={24} /> : <Menu size={24} />}
+            </button>
           </div>
         </div>
+
+        {/* Mobile Menu Panel */}
+        {showMobileMenu && (
+          <div className="mobile-menu" ref={mobileMenuRef}>
+            <ul className="mobile-menu-links">
+              {navItems.map((item) => (
+                <li key={item.hash}>
+                  <a href={`#${item.hash}`}
+                     className={currentPage === item.hash ? 'active' : ''}
+                     onClick={(e) => { e.preventDefault(); onNavigate(item.hash); setShowMobileMenu(false); }}>
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            <div className="mobile-menu-divider"></div>
+
+            <div className="mobile-menu-actions">
+              <button className="mobile-menu-item" onClick={() => { setShowMobileMenu(false); }}>
+                <Heart size={18} /> Wishlist
+              </button>
+
+              {user ? (
+                <>
+                  <button className="mobile-menu-item" onClick={() => { setShowMobileMenu(false); onNavigate('orders'); }}>
+                    📦 My Orders
+                  </button>
+                  <button className="mobile-menu-item signout"
+                    onClick={() => { signOut(auth); setShowMobileMenu(false); }}>
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <button className="mobile-menu-item" onClick={() => { setShowModal(true); setShowMobileMenu(false); }}>
+                  <User size={18} /> Sign In
+                </button>
+              )}
+            </div>
+          </div>
+        )}
       </nav>
 
       {showModal && <AuthModal onClose={() => setShowModal(false)} />}
