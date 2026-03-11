@@ -559,25 +559,21 @@ body {
   color: var(--color-primary);
   margin-top: 16px;
 }
-
 .buy-button {
+  flex: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
   padding: 10px 16px;
-  margin-top: 20px;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 600;
   background: var(--color-primary);
   color: #ffffff;
   border: none;
   border-radius: var(--radius);
   cursor: pointer;
   font-family: var(--font-sans);
-  transition: background 0.25s ease, transform 0.15s ease;
+  transition: background 0.25s ease;
 }
 
 .buy-button:hover {
@@ -1421,8 +1417,7 @@ body {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
-  white-space: nowrap;    /* ← stops text wrapping */
-  min-width: 240px;       /* ← gives it enough space */
+  white-space: nowrap;
 }
 .add-to-cart-btn:hover {
   background: #c9a84c;
