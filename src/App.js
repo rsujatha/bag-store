@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ShoppingBag, Heart, ArrowRight, ArrowLeft, Tag, Layers } from 'lucide-react';
+import { ShoppingBag, Heart, ArrowRight, ArrowLeft, Tag, Layers, User } from 'lucide-react';
+import { auth } from './firebase';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import AuthModal from './AuthModal';
 import './App.css';
 
 // ── Placeholder ───────────────────────────────────────────────────────────────
@@ -62,10 +65,25 @@ function Navbar({ currentPage, onNavigate }) {
               <span className="navbar-badge">0</span>
             </button>
 
-            {/* Login / User button */}
             {user ? (
               <button className="navbar-action" onClick={() => signOut(auth)}>
                 <User size={18} />
+                <span>{user.displayName?.split(' ')[0] || 'Account'}</span>
+              </button>
+            ) : (
+              <button className="navbar-action" onClick={() => setShowModal(true)}>
+                <User size={18} />
+                <span>Sign In</span>
+              </button>
+            )}
+          </div>
+        </div>
+      </nav>
+
+      {showModal && <AuthModal onClose={() => setShowModal(false)} />}
+    </>
+  );
+}
 
 // ── Home ──────────────────────────────────────────────────────────────────────
 function HomePage({ onNavigate }) {
@@ -89,7 +107,7 @@ function ProductCard({ product, allImages, onNavigate }) {
     if (allImages.length <= 1) return;
     intervalRef.current = setInterval(() => {
       setImgIndex((i) => (i + 1) % allImages.length);
-    }, 800);
+    }, 1500);
   };
 
   const handleMouseLeave = () => {
@@ -104,10 +122,19 @@ function ProductCard({ product, allImages, onNavigate }) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {allImages.length > 0
-        ? <img src={allImages[imgIndex]} alt={product.product_name} />
-        : <PlaceholderImage name={product.product_name} />
-      }
+      <div className="card-image-stack">
+        {allImages.length > 0
+          ? allImages.map((src, i) => (
+              <img
+                key={src}
+                src={src}
+                alt={product.product_name}
+                className={`stack-img ${i === imgIndex ? 'visible' : ''}`}
+              />
+            ))
+          : <PlaceholderImage name={product.product_name} />
+        }
+      </div>
       {allImages.length > 1 && (
         <div className="image-dots">
           {allImages.map((_, i) => (
@@ -155,19 +182,16 @@ function ShopPage({ onNavigate }) {
 
   const categories = ['All', ...new Set(products.map((p) => p.category).filter(Boolean))];
 
-  // Deduplicate by product_id — pick first row with an image, collect ALL images across all rows
   const productMap = {};
   products.forEach((p) => {
     if (!productMap[p.product_id]) {
       productMap[p.product_id] = { ...p, _allImages: [] };
     }
-    // Collect all images from every variant row
     (p.images || []).forEach((img) => {
       if (!productMap[p.product_id]._allImages.includes(img)) {
         productMap[p.product_id]._allImages.push(img);
       }
     });
-    // Use this row's name/price if current entry has no image yet
     if ((!productMap[p.product_id].images || productMap[p.product_id].images.length === 0)
         && p.images && p.images.length > 0) {
       productMap[p.product_id] = { ...productMap[p.product_id], ...p, _allImages: productMap[p.product_id]._allImages };
@@ -219,8 +243,8 @@ function ImageGallery({ images, productName }) {
 
 // ── Product Detail Page ───────────────────────────────────────────────────────
 function ProductPage({ productId, onNavigate }) {
-  const [variants, setVariants]         = useState([]);
-  const [loading, setLoading]           = useState(true);
+  const [variants, setVariants]             = useState([]);
+  const [loading, setLoading]               = useState(true);
   const [selectedVariantIdx, setSelectedVariantIdx] = useState(0);
 
   useEffect(() => {
@@ -239,7 +263,6 @@ function ProductPage({ productId, onNavigate }) {
 
   const activeVariant = variants[selectedVariantIdx];
 
-  // Group variants by product_name to create option buttons
   const optionGroups = [];
   const seenNames = {};
   variants.forEach((v, idx) => {
@@ -272,8 +295,6 @@ function ProductPage({ productId, onNavigate }) {
       </button>
 
       <div className="product-detail-inner">
-
-        {/* Horizontal scrollable image gallery for active variant */}
         <div className="product-detail-image">
           <ImageGallery images={activeVariant.images} productName={activeVariant.product_name} />
         </div>
@@ -287,7 +308,6 @@ function ProductPage({ productId, onNavigate }) {
             <p className="product-detail-desc">{activeVariant.description}</p>
           )}
 
-          {/* Variant option buttons — each shows name + size, clicking switches images */}
           <div className="variant-section">
             <p className="variant-label">Options</p>
             <div className="variant-options">
@@ -305,7 +325,6 @@ function ProductPage({ productId, onNavigate }) {
             </div>
           </div>
 
-          {/* Color if present */}
           {activeVariant.color && (
             <div className="variant-section">
               <p className="variant-label">Color</p>
