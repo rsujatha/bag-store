@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ShoppingBag, Heart, ArrowRight, ArrowLeft, Tag, Layers, User, Menu, X } from 'lucide-react';
-import { auth } from './firebase';
+import { auth, db } from './firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import AuthModal from './AuthModal';
-import './App.css';
 import { useCart } from './CartContext';
+import { useWishlist } from './WishlistContext';
 import CartDrawer from './CartDrawer';
 // ── Placeholder ───────────────────────────────────────────────────────────────
 function PlaceholderImage({ name, className }) {
@@ -21,11 +20,14 @@ function Navbar({ currentPage, onNavigate }) {
   const [user, setUser]             = useState(null);
   const [showModal, setShowModal]   = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showWishlistDropdown, setShowWishlistDropdown] = useState(false);
   const [showCart, setShowCart]     = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const dropdownRef = useRef(null);
+  const wishlistRef = useRef(null);
   const mobileMenuRef = useRef(null);
-  const { totalItems } = useCart();
+  const { totalItems, addToCart } = useCart();
+  const { wishlistItems, removeFromWishlist } = useWishlist();
 
   const navItems = [
     { label: 'Shop',     hash: 'shop'     },
@@ -42,6 +44,9 @@ function Navbar({ currentPage, onNavigate }) {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setShowDropdown(false);
+      }
+      if (wishlistRef.current && !wishlistRef.current.contains(e.target)) {
+        setShowWishlistDropdown(false);
       }
       if (mobileMenuRef.current && !mobileMenuRef.current.contains(e.target)) {
         setShowMobileMenu(false);
@@ -76,10 +81,58 @@ function Navbar({ currentPage, onNavigate }) {
           </ul>
 
           <div className="navbar-actions">
-            {/* Desktop: Wishlist, Bag, Sign In */}
-            <button className="navbar-action navbar-action-desktop" aria-label="Wishlist">
-              <Heart size={18} /><span>Wishlist</span>
-            </button>
+            {/* Desktop: Wishlist Dropdown */}
+            <div className="wishlist-menu navbar-action-desktop" ref={wishlistRef}>
+              <button className="navbar-action" onClick={() => setShowWishlistDropdown(!showWishlistDropdown)}>
+                <Heart size={18} /><span>Wishlist</span>
+                {wishlistItems.length > 0 && <span className="navbar-badge">{wishlistItems.length}</span>}
+              </button>
+              {showWishlistDropdown && (
+                <div className="wishlist-dropdown">
+                  {wishlistItems.length === 0 ? (
+                    <div className="wishlist-empty">
+                      <p>Your wishlist is empty</p>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="wishlist-dropdown-header">
+                        <p className="wishlist-dropdown-title">Wishlisted Items ({wishlistItems.length})</p>
+                      </div>
+                      <div className="wishlist-items-list">
+                        {wishlistItems.map((item) => (
+                          <div key={item.product_id} className="wishlist-item">
+                            <img src={item.image} alt={item.product_name} className="wishlist-item-img" />
+                            <div className="wishlist-item-info">
+                              <p className="wishlist-item-name">{item.product_name}</p>
+                              <p className="wishlist-item-price">₹{Number(item.price).toLocaleString('en-IN')}</p>
+                            </div>
+                            <div className="wishlist-item-actions">
+                              <button 
+                                className="wishlist-item-add-cart"
+                                onClick={() => {
+                                  addToCart(item, 'One Size');
+                                  removeFromWishlist(item.product_id);
+                                }}
+                                title="Add to cart"
+                              >
+                                +
+                              </button>
+                              <button 
+                                className="wishlist-item-remove" 
+                                onClick={() => removeFromWishlist(item.product_id)}
+                                title="Remove from wishlist"
+                              >
+                                ✕
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
 
             {/* Bag button — opens cart drawer (visible on all sizes) */}
             <button className="navbar-action navbar-action-bag" aria-label="Shopping bag"
@@ -143,8 +196,8 @@ function Navbar({ currentPage, onNavigate }) {
             <div className="mobile-menu-divider"></div>
 
             <div className="mobile-menu-actions">
-              <button className="mobile-menu-item" onClick={() => { setShowMobileMenu(false); }}>
-                <Heart size={18} /> Wishlist
+              <button className="mobile-menu-item" onClick={() => { setShowMobileMenu(false); setShowWishlistDropdown(!showWishlistDropdown); }}>
+                <Heart size={18} /> Wishlist {wishlistItems.length > 0 && `(${wishlistItems.length})`}
               </button>
 
               {user ? (
@@ -587,6 +640,7 @@ function ImageGallery({ images, productName }) {
 // ── Product Detail Page ───────────────────────────────────────────────────────
 function ProductPage({ productId, onNavigate }) {
   const { addToCart } = useCart();
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const [variants, setVariants]             = useState([]);
   const [loading, setLoading]               = useState(true);
   const [selectedVariantIdx, setSelectedVariantIdx] = useState(0);
@@ -690,6 +744,19 @@ function ProductPage({ productId, onNavigate }) {
                 }}
                 >
     Add to Bag
+  </button>
+  <button 
+    className={`wishlist-btn ${isInWishlist(activeVariant.product_id) ? 'active' : ''}`}
+    onClick={() => {
+      if (isInWishlist(activeVariant.product_id)) {
+        removeFromWishlist(activeVariant.product_id);
+      } else {
+        addToWishlist(activeVariant);
+      }
+    }}
+    title={isInWishlist(activeVariant.product_id) ? 'Remove from Wishlist' : 'Add to Wishlist'}
+  >
+    <Heart size={18} fill={isInWishlist(activeVariant.product_id) ? 'currentColor' : 'none'} />
   </button>
   <button className="buy-button" disabled={!activeVariant.in_stock} onClick={makePayment}>
     Buy Now
