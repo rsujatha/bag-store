@@ -565,6 +565,7 @@ body {
   align-items: center;
   justify-content: center;
   width: 100%;
+  padding: 10px 16px;
   margin-top: 20px;
   font-size: 13px;
   font-weight: 700;
@@ -1422,10 +1423,6 @@ body {
   transition: all 0.2s;
   white-space: nowrap;    /* ← stops text wrapping */
   min-width: 240px;       /* ← gives it enough space */
-}
-.buy-button {
-  flex: 2;                /* ← Buy Now gets 2x the space */
-  padding: 10px 16px;
 }
 .add-to-cart-btn:hover {
   background: #c9a84c;
