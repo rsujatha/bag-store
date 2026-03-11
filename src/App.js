@@ -379,7 +379,6 @@ function ProductPage({ productId, onNavigate }) {
                 disabled={!activeVariant.in_stock}
                 onClick={() => {
                 addToCart(activeVariant, activeVariant.size);
-                onNavigate('shop');
                 }}
                 >
     Add to Bag
