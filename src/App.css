@@ -1412,7 +1412,7 @@ body {
 }
 .add-to-cart-btn {
   flex: 1;
-  padding: 12px;
+  padding: 10px 16px;
   background: transparent;
   border: 2px solid #c9a84c;
   color: #c9a84c;
@@ -1426,6 +1426,7 @@ body {
 }
 .buy-button {
   flex: 2;                /* ← Buy Now gets 2x the space */
+  padding: 10px 16px;
 }
 .add-to-cart-btn:hover {
   background: #c9a84c;
