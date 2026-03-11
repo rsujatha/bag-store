@@ -1408,16 +1408,18 @@ body {
 }
 .add-to-cart-btn {
   flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 10px 16px;
-  background: transparent;
-  border: 2px solid #c9a84c;
-  color: #c9a84c;
-  border-radius: 6px;
   font-size: 14px;
   font-weight: 600;
+  background: transparent;
+  color: #c9a84c;
+  border: 2px solid #c9a84c;
   cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
+  font-size: 14px;
+  transition: background 0.25s ease;
 }
 .add-to-cart-btn:hover {
   background: #c9a84c;
