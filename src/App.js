@@ -373,10 +373,21 @@ function ProductPage({ productId, onNavigate }) {
               ? <span className="in-stock">✓ In Stock</span>
               : <span className="out-of-stock">Out of Stock</span>}
           </div>
-
-          <button className="buy-button" disabled={!activeVariant.in_stock} onClick={makePayment}>
-            Buy Now
-          </button>
+          <div className="product-detail-actions">
+              <button
+                className="add-to-cart-btn"
+                disabled={!activeVariant.in_stock}
+                onClick={() => {
+                addToCart(activeVariant, activeVariant.size);
+                onNavigate('shop');
+                }}
+                >
+    Add to Bag
+  </button>
+  <button className="buy-button" disabled={!activeVariant.in_stock} onClick={makePayment}>
+    Buy Now
+  </button>
+</div>
         </div>
       </div>
     </div>
