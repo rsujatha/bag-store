@@ -1422,7 +1422,7 @@ body {
   cursor: pointer;
   transition: all 0.2s;
   white-space: nowrap;    /* ← stops text wrapping */
-  min-width: 120px;       /* ← gives it enough space */
+  min-width: 240px;       /* ← gives it enough space */
 }
 .buy-button {
   flex: 2;                /* ← Buy Now gets 2x the space */
