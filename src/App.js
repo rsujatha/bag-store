@@ -278,6 +278,7 @@ function ImageGallery({ images, productName }) {
 
 // ── Product Detail Page ───────────────────────────────────────────────────────
 function ProductPage({ productId, onNavigate }) {
+  const { addToCart } = useCart();
   const [variants, setVariants]             = useState([]);
   const [loading, setLoading]               = useState(true);
   const [selectedVariantIdx, setSelectedVariantIdx] = useState(0);
