@@ -4,7 +4,8 @@ import { auth } from './firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import AuthModal from './AuthModal';
 import './App.css';
-
+import { useCart } from './CartContext';
+import CartDrawer from './CartDrawer';
 // ── Placeholder ───────────────────────────────────────────────────────────────
 function PlaceholderImage({ name, className }) {
   return (
