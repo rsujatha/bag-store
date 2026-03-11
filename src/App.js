@@ -16,9 +16,13 @@ function PlaceholderImage({ name, className }) {
 }
 
 // ── Navbar ────────────────────────────────────────────────────────────────────
+// Replace the entire Navbar function in App.js with this:
+
 function Navbar({ currentPage, onNavigate }) {
-  const [user, setUser]           = useState(null);
-  const [showModal, setShowModal] = useState(false);
+  const [user, setUser]             = useState(null);
+  const [showModal, setShowModal]   = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
 
   const navItems = [
     { label: 'Shop',     hash: 'shop'     },
@@ -29,6 +33,17 @@ function Navbar({ currentPage, onNavigate }) {
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (u) => setUser(u));
     return unsub;
+  }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   return (
@@ -65,11 +80,30 @@ function Navbar({ currentPage, onNavigate }) {
               <span className="navbar-badge">0</span>
             </button>
 
+            {/* User menu */}
             {user ? (
-              <button className="navbar-action" onClick={() => signOut(auth)}>
-                <User size={18} />
-                <span>{user.displayName?.split(' ')[0] || 'Account'}</span>
-              </button>
+              <div className="user-menu" ref={dropdownRef}>
+                <button className="navbar-action" onClick={() => setShowDropdown(!showDropdown)}>
+                  <User size={18} />
+                  <span>{user.displayName?.split(' ')[0] || 'Account'}</span>
+                </button>
+                {showDropdown && (
+                  <div className="user-dropdown">
+                    <div className="user-dropdown-header">
+                      <p className="user-dropdown-name">{user.displayName || 'User'}</p>
+                      <p className="user-dropdown-email">{user.email}</p>
+                    </div>
+                    <button className="user-dropdown-item"
+                      onClick={() => { setShowDropdown(false); onNavigate('orders'); }}>
+                      📦 My Orders
+                    </button>
+                    <button className="user-dropdown-item signout"
+                      onClick={() => { signOut(auth); setShowDropdown(false); }}>
+                      Sign Out
+                    </button>
+                  </div>
+                )}
+              </div>
             ) : (
               <button className="navbar-action" onClick={() => setShowModal(true)}>
                 <User size={18} />
