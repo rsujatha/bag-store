@@ -3,8 +3,7 @@ import { auth, googleProvider } from './firebase';
 import {
   signInWithPopup,
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signOut
+  createUserWithEmailAndPassword
 } from 'firebase/auth';
 import './AuthModal.css';
 
