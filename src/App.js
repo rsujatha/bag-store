@@ -14,42 +14,58 @@ function PlaceholderImage({ name, className }) {
 
 // ── Navbar ────────────────────────────────────────────────────────────────────
 function Navbar({ currentPage, onNavigate }) {
+  const [user, setUser]           = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
   const navItems = [
     { label: 'Shop',     hash: 'shop'     },
     { label: 'Blog',     hash: 'blog'     },
     { label: 'About Us', hash: 'about-us' },
   ];
+
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, (u) => setUser(u));
+    return unsub;
+  }, []);
+
   return (
-    <nav className="navbar">
-      <div className="navbar-inner">
-        <a href="#home" className="navbar-logo"
-           onClick={(e) => { e.preventDefault(); onNavigate('home'); }}>
-          <div className="navbar-logo-icon-wrap">
-            <img src="/images/kasvi-logo.jpeg" alt="" className="navbar-logo-img" />
-          </div>
-          <span className="navbar-logo-text" style={{ fontSize: '36px', fontWeight: 'bold' }}>KASVI</span>
-        </a>
-        <ul className="navbar-links">
-          {navItems.map((item) => (
-            <li key={item.hash}>
-              <a href={`#${item.hash}`}
-                 className={currentPage === item.hash ? 'active' : ''}
-                 onClick={(e) => { e.preventDefault(); onNavigate(item.hash); }}>
-                {item.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-        <div className="navbar-actions">
-          <button className="navbar-action" aria-label="Wishlist"><Heart size={18} /><span>Wishlist</span></button>
-          <button className="navbar-action" aria-label="Shopping bag">
-            <ShoppingBag size={18} /><span>Bag</span><span className="navbar-badge">0</span>
-          </button>
-        </div>
-      </div>
-    </nav>
-  );
-}
+    <>
+      <nav className="navbar">
+        <div className="navbar-inner">
+          <a href="#home" className="navbar-logo"
+             onClick={(e) => { e.preventDefault(); onNavigate('home'); }}>
+            <div className="navbar-logo-icon-wrap">
+              <img src="/images/kasvi-logo.jpeg" alt="" className="navbar-logo-img" />
+            </div>
+            <span className="navbar-logo-text" style={{ fontSize: '36px', fontWeight: 'bold' }}>KASVI</span>
+          </a>
+
+          <ul className="navbar-links">
+            {navItems.map((item) => (
+              <li key={item.hash}>
+                <a href={`#${item.hash}`}
+                   className={currentPage === item.hash ? 'active' : ''}
+                   onClick={(e) => { e.preventDefault(); onNavigate(item.hash); }}>
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <div className="navbar-actions">
+            <button className="navbar-action" aria-label="Wishlist">
+              <Heart size={18} /><span>Wishlist</span>
+            </button>
+
+            <button className="navbar-action" aria-label="Shopping bag">
+              <ShoppingBag size={18} /><span>Bag</span>
+              <span className="navbar-badge">0</span>
+            </button>
+
+            {/* Login / User button */}
+            {user ? (
+              <button className="navbar-action" onClick={() => signOut(auth)}>
+                <User size={18} />
 
 // ── Home ──────────────────────────────────────────────────────────────────────
 function HomePage({ onNavigate }) {
