@@ -262,17 +262,273 @@ function ShopPage({ onNavigate }) {
   );
 }
 
-// ── Horizontal Image Gallery ──────────────────────────────────────────────────
+// ── Image Zoom Modal ─────────────────────────────────────────────────────────
+function ImageZoomModal({ src, alt, onClose, onPrevious, onNext, hasPrevious, hasNext }) {
+  const [zoom, setZoom] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
+  const [touchStart, setTouchStart] = useState(null);
+  const maxZoom = 3;
+  const minZoom = 1;
+
+  const handleZoomIn = () => {
+    setZoom((z) => Math.min(z + 0.2, maxZoom));
+  };
+
+  const handleZoomOut = () => {
+    setZoom((z) => Math.max(z - 0.2, minZoom));
+  };
+
+  const handleReset = () => {
+    setZoom(1);
+  };
+
+  // Keyboard navigation (arrow keys and ESC)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      } else if (e.key === 'ArrowLeft' && hasPrevious) {
+        onPrevious();
+      } else if (e.key === 'ArrowRight' && hasNext) {
+        onNext();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose, onPrevious, onNext, hasPrevious, hasNext]);
+
+  // Touch swipe support
+  const handleTouchStart = (e) => {
+    setTouchStart(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e) => {
+    if (!touchStart) return;
+    const touchEnd = e.changedTouches[0].clientX;
+    const diff = touchStart - touchEnd;
+    
+    if (Math.abs(diff) > 50) {
+      if (diff > 0 && hasNext) {
+        onNext();
+      } else if (diff < 0 && hasPrevious) {
+        onPrevious();
+      }
+    }
+    setTouchStart(null);
+  };
+
+  return (
+    <div className="modal-overlay" onClick={onClose} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        {/* Close button */}
+        <button className="modal-close" onClick={onClose} title="Press ESC to close">✕</button>
+
+        {/* Zoom controls */}
+        <div className="modal-controls">
+          <button className="modal-btn" onClick={handleZoomOut} disabled={zoom === minZoom}>−</button>
+          <span className="modal-zoom-level">{Math.round(zoom * 100)}%</span>
+          <button className="modal-btn" onClick={handleZoomIn} disabled={zoom === maxZoom}>+</button>
+          <button className="modal-btn" onClick={handleReset}>Reset</button>
+        </div>
+
+        {/* Image container */}
+        <div className="modal-image-container">
+          {isLoading && <div className="image-skeleton"></div>}
+          <img
+            src={src}
+            alt={alt}
+            className="modal-image"
+            style={{ transform: `scale(${zoom})`, opacity: isLoading ? 0 : 1 }}
+            onLoad={() => setIsLoading(false)}
+            onError={() => setIsLoading(false)}
+          />
+        </div>
+
+        {/* Navigation arrows */}
+        {hasPrevious && (
+          <button className="modal-nav modal-nav-prev" onClick={onPrevious} title="Previous (← arrow key)">
+            <ArrowLeft size={24} />
+          </button>
+        )}
+        {hasNext && (
+          <button className="modal-nav modal-nav-next" onClick={onNext} title="Next (→ arrow key)">
+            <ArrowRight size={24} />
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ── Image Gallery with Arrow Navigation ───────────────────────────────────────
 function ImageGallery({ images, productName }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [zoomImageIndex, setZoomImageIndex] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [touchStart, setTouchStart] = useState(null);
+  const [lastDoubleTap, setLastDoubleTap] = useState(0);
+
   if (!images || images.length === 0) {
     return <PlaceholderImage name={productName} className="large" />;
   }
+
+  const currentImage = images[currentIndex];
+
+  const handlePrevious = () => {
+    setCurrentIndex((i) => (i - 1 + images.length) % images.length);
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((i) => (i + 1) % images.length);
+  };
+
+  const handleImageClick = () => {
+    setZoomImageIndex(currentIndex);
+  };
+
+  const handleZoomPrevious = () => {
+    setZoomImageIndex((i) => (i - 1 + images.length) % images.length);
+  };
+
+  const handleZoomNext = () => {
+    setZoomImageIndex((i) => (i + 1) % images.length);
+  };
+
+  // Keyboard navigation (arrow keys)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowLeft') {
+        handlePrevious();
+      } else if (e.key === 'ArrowRight') {
+        handleNext();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  // Touch swipe support
+  const handleTouchStart = (e) => {
+    setTouchStart(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e) => {
+    if (!touchStart) return;
+    const touchEnd = e.changedTouches[0].clientX;
+    const diff = touchStart - touchEnd;
+    
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) {
+        handleNext();
+      } else {
+        handlePrevious();
+      }
+    }
+    setTouchStart(null);
+  };
+
+  // Double-tap to zoom on mobile
+  const handleDoubleTap = () => {
+    const now = Date.now();
+    if (now - lastDoubleTap < 300) {
+      setZoomImageIndex(currentIndex);
+    }
+    setLastDoubleTap(now);
+  };
+
+  // Preload next and previous images
+  useEffect(() => {
+    const nextIdx = (currentIndex + 1) % images.length;
+    const prevIdx = (currentIndex - 1 + images.length) % images.length;
+    
+    // Preload next image
+    const nextImg = new Image();
+    nextImg.src = images[nextIdx];
+    
+    // Preload previous image
+    const prevImg = new Image();
+    prevImg.src = images[prevIdx];
+  }, [currentIndex, images]);
+
   return (
-    <div className="image-gallery">
-      {images.map((src, i) => (
-        <img key={i} src={src} alt={`${productName} ${i + 1}`} />
-      ))}
-    </div>
+    <>
+      <div className="image-gallery-container">
+        {/* Main image */}
+        <div 
+          className="gallery-main"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          {isLoading && <div className="image-skeleton"></div>}
+          <img
+            src={currentImage}
+            alt={`${productName} ${currentIndex + 1}`}
+            className="gallery-main-img"
+            onClick={handleImageClick}
+            onDoubleClick={handleDoubleTap}
+            onLoad={() => setIsLoading(false)}
+            onError={() => setIsLoading(false)}
+            style={{ cursor: 'pointer', opacity: isLoading ? 0 : 1 }}
+          />
+
+          {/* Navigation arrows */}
+          {images.length > 1 && (
+            <>
+              <button
+                className="gallery-arrow gallery-arrow-left"
+                onClick={handlePrevious}
+                aria-label="Previous image"
+                title="Previous (← arrow key / swipe right)"
+              >
+                <ArrowLeft size={24} />
+              </button>
+              <button
+                className="gallery-arrow gallery-arrow-right"
+                onClick={handleNext}
+                aria-label="Next image"
+                title="Next (→ arrow key / swipe left)"
+              >
+                <ArrowRight size={24} />
+              </button>
+            </>
+          )}
+
+          {/* Image counter */}
+          {images.length > 1 && (
+            <div className="gallery-counter">
+              {currentIndex + 1} / {images.length}
+            </div>
+          )}
+        </div>
+
+        {/* Thumbnail dots */}
+        {images.length > 1 && (
+          <div className="gallery-dots">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                className={`dot ${i === currentIndex ? 'active' : ''}`}
+                onClick={() => setCurrentIndex(i)}
+                aria-label={`View image ${i + 1}`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Zoom Modal */}
+      {zoomImageIndex !== null && (
+        <ImageZoomModal
+          src={images[zoomImageIndex]}
+          alt={`${productName} ${zoomImageIndex + 1}`}
+          onClose={() => setZoomImageIndex(null)}
+          onPrevious={handleZoomPrevious}
+          onNext={handleZoomNext}
+          hasPrevious={images.length > 1}
+          hasNext={images.length > 1}
+        />
+      )}
+    </>
   );
 }
 
