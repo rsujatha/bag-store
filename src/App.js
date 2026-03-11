@@ -368,11 +368,11 @@ function ImageGallery({ images, productName }) {
   const [touchStart, setTouchStart] = useState(null);
   const [lastDoubleTap, setLastDoubleTap] = useState(0);
 
-  if (!images || images.length === 0) {
-    return <PlaceholderImage name={productName} className="large" />;
-  }
 
-  const currentImage = images[currentIndex];
+
+  // const currentImage = images[currentIndex];
+  const currentImage = images ? images[currentIndex] : null;
+
 
   const handlePrevious = () => {
     setCurrentIndex((i) => (i - 1 + images.length) % images.length);
@@ -449,7 +449,9 @@ function ImageGallery({ images, productName }) {
     const prevImg = new Image();
     prevImg.src = images[prevIdx];
   }, [currentIndex, images]);
-
+  if (!images || images.length === 0) {
+    return <PlaceholderImage name={productName} className="large" />;
+  }
   return (
     <>
       <div className="image-gallery-container">
