@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useCart } from './CartContext';
 import './CartDrawer.css';
 
-const SERVER_URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:5001';
+// const SERVER_URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:5001';
+const SERVER_URL = '';
 
 function loadRazorpay() {
   return new Promise((resolve) => {
