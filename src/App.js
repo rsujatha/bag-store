@@ -19,15 +19,16 @@ function PlaceholderImage({ name, className }) {
   );
 }
 
+// Navbar
 // ── Navbar ────────────────────────────────────────────────────────────────────
 function Navbar({ currentPage, onNavigate }) {
   const [user, setUser]             = useState(null);
   const [showModal, setShowModal]   = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showCart, setShowCart]     = useState(false);
+  const [showWishlist, setShowWishlist] = useState(false);
   const dropdownRef = useRef(null);
   const { totalItems } = useCart();
-  const [showWishlist, setShowWishlist] = useState(false);
   const { totalWishlist } = useWishlist();
 
   const navItems = [
@@ -75,12 +76,12 @@ function Navbar({ currentPage, onNavigate }) {
             ))}
           </ul>
 
-          <button className="navbar-action" onClick={() => setShowWishlist(true)}>
-            <Heart size={18} /><span>Wishlist</span>
-            {totalWishlist > 0 && <span className="navbar-badge">{totalWishlist}</span>}
-          </button>
+          <div className="navbar-actions">
+            <button className="navbar-action" onClick={() => setShowWishlist(true)}>
+              <Heart size={18} /><span>Wishlist</span>
+              {totalWishlist > 0 && <span className="navbar-badge">{totalWishlist}</span>}
+            </button>
 
-            {/* Bag button — opens cart drawer */}
             <button className="navbar-action" aria-label="Shopping bag"
               onClick={() => setShowCart(true)}>
               <ShoppingBag size={18} /><span>Bag</span>
