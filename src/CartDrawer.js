@@ -20,7 +20,7 @@ export default function CartDrawer({ onClose }) {
   const { cartItems, removeFromCart, updateQuantity, totalItems, totalPrice, clearCart } = useCart();
 
   const [step, setStep] = useState('cart'); // 'cart' | 'form' | 'success'
-  const [form, setForm] = useState({ name: '', phone: '', address: '' });
+  const [form, setForm] = useState({ name: '', email: '', phone: '', address: '' });
   const [formError, setFormError] = useState('');
   const [paying, setPaying] = useState(false);
 
