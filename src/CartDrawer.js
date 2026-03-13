@@ -208,6 +208,18 @@ export default function CartDrawer({ onClose }) {
               />
             </div>
 
+
+              <div className="drawer-field">
+            <label>Email Address</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="your@email.com"
+              value={form.email}
+              onChange={handleFormChange}
+              />
+              </div>
+                
             <div className="drawer-field">
               <label>Phone Number</label>
               <input
