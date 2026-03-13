@@ -1,5 +1,6 @@
 const express = require('express');
 const Razorpay = require('razorpay');
+const crypto = require('crypto');
 const cors = require('cors');
 require('dotenv').config();
 
@@ -13,21 +14,42 @@ const razorpay = new Razorpay({
 });
 
 app.get('/', (req, res) => {
-  res.send("Welcome to the Bag Store Backend!");
+  res.send("Welcome to the Kasvi Bags Backend!");
 });
-// This endpoint creates a "Receipt" for the user to pay
+
+// Create Razorpay order
 app.post('/create-order', async (req, res) => {
   try {
     const options = {
-      amount: req.body.amount * 100, // Razorpay works in paise (2499 INR = 249900 paise)
+      amount: req.body.amount * 100, // paise
       currency: "INR",
       receipt: "receipt_" + Math.random().toString(36).substring(7),
     };
-
     const order = await razorpay.orders.create(options);
     res.status(200).json(order);
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+});
+
+// Verify payment signature
+app.post('/verify-payment', (req, res) => {
+  try {
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+
+    const body = razorpay_order_id + "|" + razorpay_payment_id;
+    const expectedSignature = crypto
+      .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
+      .update(body.toString())
+      .digest('hex');
+
+    if (expectedSignature === razorpay_signature) {
+      res.status(200).json({ success: true, payment_id: razorpay_payment_id });
+    } else {
+      res.status(400).json({ success: false, error: 'Invalid signature' });
+    }
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
   }
 });
 
