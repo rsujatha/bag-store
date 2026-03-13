@@ -50,7 +50,7 @@ export default function CartDrawer({ onClose }) {
     }
 
     try {
-      const resp = await fetch(`${SERVER_URL}/create-order`, {
+      const resp = await fetch(`${SERVER_URL}/api/create-order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ amount: totalPrice }),
@@ -77,7 +77,7 @@ export default function CartDrawer({ onClose }) {
         theme: { color: '#4A2B4D' },
         handler: async (response) => {
           try {
-            const verifyResp = await fetch(`${SERVER_URL}/verify-payment`, {
+            const verifyResp = await fetch(`${SERVER_URL}/api/verify-payment`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
