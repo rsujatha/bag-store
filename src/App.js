@@ -547,6 +547,7 @@ function ProductPage({ productId, onNavigate }) {
   const [variants, setVariants]             = useState([]);
   const [loading, setLoading]               = useState(true);
   const [selectedVariantIdx, setSelectedVariantIdx] = useState(0);
+  const { isInWishlist, toggleWishlist } = useWishlist();
 
   useEffect(() => {
     fetch('/catalog.json')
@@ -639,6 +640,13 @@ function ProductPage({ productId, onNavigate }) {
               : <span className="out-of-stock">Out of Stock</span>}
           </div>
           <div className="product-detail-actions">
+                <button
+  className={`wishlist-heart-btn ${isInWishlist(activeVariant.product_id) ? 'active' : ''}`}
+  onClick={() => toggleWishlist(activeVariant)}
+>
+  <Heart size={16} fill={isInWishlist(activeVariant.product_id) ? '#e74c7c' : 'none'} />
+  {isInWishlist(activeVariant.product_id) ? 'Saved' : 'Wishlist'}
+</button>
               <button
                 className="add-to-cart-btn"
                 disabled={!activeVariant.in_stock}
