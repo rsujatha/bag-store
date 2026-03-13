@@ -31,6 +31,7 @@ export default function CartDrawer({ onClose }) {
 
   const validateForm = () => {
     if (!form.name.trim()) return 'Please enter your name.';
+    if (!form.email.trim() || !/\S+@\S+\.\S+/.test(form.email)) return 'Please enter a valid email address.';
     if (!/^\d{10}$/.test(form.phone.trim())) return 'Please enter a valid 10-digit phone number.';
     if (!form.address.trim()) return 'Please enter your delivery address.';
     return null;
@@ -72,6 +73,7 @@ export default function CartDrawer({ onClose }) {
         order_id: order.id,
         prefill: {
           name: form.name,
+          email: form.email,
           contact: form.phone,
         },
         theme: { color: '#4A2B4D' },
