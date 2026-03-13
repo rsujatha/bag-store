@@ -56,8 +56,8 @@ export function CartProvider({ children }) {
         await setDoc(ref, { items: merged });
         localStorage.removeItem(LOCAL_CART_KEY); // clear local cart after merge
       } else {
-        // User logged out — load from localStorage
-        setCartItems(loadLocalCart());
+        // User logged out 
+         setCartItems([]);
       }
     });
     return unsub;
