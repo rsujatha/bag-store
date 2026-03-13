@@ -6,6 +6,9 @@ import AuthModal from './AuthModal';
 import './App.css';
 import { useCart } from './CartContext';
 import CartDrawer from './CartDrawer';
+import { useWishlist } from './WishlistContext';
+import WishlistDrawer from './WishlistDrawer';
+
 // ── Placeholder ───────────────────────────────────────────────────────────────
 function PlaceholderImage({ name, className }) {
   return (
@@ -24,6 +27,8 @@ function Navbar({ currentPage, onNavigate }) {
   const [showCart, setShowCart]     = useState(false);
   const dropdownRef = useRef(null);
   const { totalItems } = useCart();
+  const [showWishlist, setShowWishlist] = useState(false);
+  const { totalWishlist } = useWishlist();
 
   const navItems = [
     { label: 'Shop',     hash: 'shop'     },
@@ -70,10 +75,10 @@ function Navbar({ currentPage, onNavigate }) {
             ))}
           </ul>
 
-          <div className="navbar-actions">
-            <button className="navbar-action" aria-label="Wishlist">
-              <Heart size={18} /><span>Wishlist</span>
-            </button>
+          <button className="navbar-action" onClick={() => setShowWishlist(true)}>
+            <Heart size={18} /><span>Wishlist</span>
+            {totalWishlist > 0 && <span className="navbar-badge">{totalWishlist}</span>}
+          </button>
 
             {/* Bag button — opens cart drawer */}
             <button className="navbar-action" aria-label="Shopping bag"
@@ -117,6 +122,7 @@ function Navbar({ currentPage, onNavigate }) {
 
       {showModal && <AuthModal onClose={() => setShowModal(false)} />}
       {showCart && <CartDrawer onClose={() => setShowCart(false)} onCheckout={() => { setShowCart(false); onNavigate('checkout'); }} />}
+      {showWishlist && <WishlistDrawer onClose={() => setShowWishlist(false)} onNavigate={onNavigate} />}
     </>
   );
 }
