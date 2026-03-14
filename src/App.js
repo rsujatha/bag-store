@@ -148,13 +148,68 @@ function Navbar({ currentPage, onNavigate }) {
 }
 // ── Home ──────────────────────────────────────────────────────────────────────
 function HomePage({ onNavigate }) {
+  const videoRef = React.useRef(null);
+  const [isReversing, setIsReversing] = React.useState(false);
+  const animationIdRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const playForward = () => {
+      video.playbackRate = 1;
+      video.play().catch(() => {});
+    };
+
+    const playReverse = () => {
+      const step = () => {
+        if (video.currentTime <= 0) {
+          setIsReversing(false);
+          playForward();
+        } else {
+          video.currentTime -= 0.03;
+          animationIdRef.current = requestAnimationFrame(step);
+        }
+      };
+      video.pause();
+      video.currentTime = video.duration;
+      animationIdRef.current = requestAnimationFrame(step);
+    };
+
+    const handleEnded = () => {
+      setIsReversing(true);
+    };
+
+    video.addEventListener('ended', handleEnded);
+
+    if (isReversing) {
+      playReverse();
+    } else {
+      playForward();
+    }
+
+    return () => {
+      video.removeEventListener('ended', handleEnded);
+      if (animationIdRef.current) {
+        cancelAnimationFrame(animationIdRef.current);
+      }
+    };
+  }, [isReversing]);
+
   return (
     <header className="hero">
-      <h2>Style with Purpose 2026</h2>
-      <p>Quality bags for your everyday journey.</p>
-      <button className="hero-cta" onClick={() => onNavigate('shop')}>
-        Browse the Shop <ArrowRight size={16} />
-      </button>
+      <video ref={videoRef} muted playsInline autoPlay className="hero-video">
+        <source src="/hero-video.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <div className="hero-overlay"></div>
+      <div className="hero-content">
+        <h2>Style with Purpose</h2>
+        <p>Quality bags for your everyday journey.</p>
+        <button className="hero-cta" onClick={() => onNavigate('shop')}>
+          Browse the Shop <ArrowRight size={16} />
+        </button>
+      </div>
     </header>
   );
 }
