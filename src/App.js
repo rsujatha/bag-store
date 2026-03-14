@@ -754,9 +754,9 @@ function OrdersPage({ onNavigate }) {
                 </p>
                 <p className="order-id">Order ID: {order.id}</p>
               </div>
-              <div className="order-status paid">Paid</div>
+            <div className={`order-status ${order.status}`}>
+            {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
             </div>
-
             <div className="order-items">
               {order.items.map((item, i) => (
                 <div key={i} className="order-item">
