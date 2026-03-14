@@ -811,6 +811,7 @@ function App() {
     return hash || 'home';
   });
   const [selectedProductId, setSelectedProductId] = useState(null);
+  const [showCart, setShowCart] = useState(false);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -837,6 +838,7 @@ function App() {
       {currentPage === 'blog'     && <div className="placeholder-page"><h2>Blog</h2><p>Coming soon.</p></div>}
       {currentPage === 'about-us' && <AboutPage />}
       {currentPage === 'orders'   && <OrdersPage onNavigate={navigate} />}
+      {showCart && <CartDrawer onClose={() => setShowCart(false)} />}
     </div>
   );
 }
