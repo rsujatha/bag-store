@@ -150,11 +150,18 @@ function Navbar({ currentPage, onNavigate }) {
 function HomePage({ onNavigate }) {
   return (
     <header className="hero">
-      <h2>Style with Purpose 2026</h2>
-      <p>Quality bags for your everyday journey.</p>
-      <button className="hero-cta" onClick={() => onNavigate('shop')}>
-        Browse the Shop <ArrowRight size={16} />
-      </button>
+      <video autoPlay muted loop playsInline className="hero-video">
+        <source src="/hero-video.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <div className="hero-overlay"></div>
+      <div className="hero-content">
+        <h2>Style with Purpose 2026</h2>
+        <p>Quality bags for your everyday journey.</p>
+        <button className="hero-cta" onClick={() => onNavigate('shop')}>
+          Browse the Shop <ArrowRight size={16} />
+        </button>
+      </div>
     </header>
   );
 }
