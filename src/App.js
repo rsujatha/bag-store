@@ -32,7 +32,8 @@ function Navbar({ currentPage, onNavigate }) {
   const dropdownRef = useRef(null);
   const { totalItems } = useCart();
   const { totalWishlist } = useWishlist();
-
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  
   const navItems = [
     { label: 'Shop',     hash: 'shop'     },
     { label: 'Blog',     hash: 'blog'     },
