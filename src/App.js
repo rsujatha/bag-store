@@ -126,6 +126,19 @@ function Navbar({ currentPage, onNavigate }) {
           </div>
         </div>
       </nav>
+ {showMobileMenu && (
+        <div className="mobile-menu">
+          {navItems.map((item) => (
+            <a key={item.hash} href={`#${item.hash}`}
+              className={currentPage === item.hash ? 'active' : ''}
+              onClick={(e) => { e.preventDefault(); onNavigate(item.hash); setShowMobileMenu(false); }}>
+              {item.label}
+            </a>
+          ))}
+        </div>
+      )}
+
+      {showModal && <AuthModal onClose={() => setShowModal(false)} />}
 
       {showModal && <AuthModal onClose={() => setShowModal(false)} />}
       {showCart && <CartDrawer onClose={() => setShowCart(false)} onCheckout={() => { setShowCart(false); onNavigate('checkout'); }} />}
