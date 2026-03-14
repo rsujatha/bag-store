@@ -1,3 +1,4 @@
+@import './admin.css';
 /* ========== Global Reset & Tokens ========== */
 :root {
   --color-primary: #4A2B4D;
