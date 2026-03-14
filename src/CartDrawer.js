@@ -67,6 +67,7 @@ export default function CartDrawer({ onClose }) {
 
       const ref = await addDoc(collection(db, 'orders'), orderData);
       setOrderId(ref.id);
+      return ref;  
     } catch (err) {
       console.error('Failed to save order:', err);
     }
@@ -124,11 +125,25 @@ export default function CartDrawer({ onClose }) {
               }),
             });
             const verifyData = await verifyResp.json();
-            if (verifyData.success) {
-              await saveOrderToFirestore(response.razorpay_payment_id, response.razorpay_order_id);
-              clearCart();
-              setStep('success');
-            } else {
+if (verifyData.success) {
+  const ref = await saveOrderToFirestore(response.razorpay_payment_id, response.razorpay_order_id);
+  // Send email notification
+  await fetch('/api/send-email', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      customerName: form.name,
+      customerEmail: form.email,
+      customerPhone: form.phone,
+      customerAddress: form.address,
+      items: cartItems,
+      total: totalPrice,
+      orderId: ref?.id || '',
+    }),
+  });
+  clearCart();
+  setStep('success');
+} else {
               setFormError('Payment verification failed. Please contact support.');
             }
           } catch {
