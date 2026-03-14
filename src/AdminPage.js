@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { db } from './firebase';
 import { collection, query, orderBy, getDocs, updateDoc, doc } from 'firebase/firestore';
 
-function AdminPage() {
+export default function AdminPage() {
   const ADMIN_PASSWORD = 'kasvi2026';
   const [authed, setAuthed] = useState(false);
   const [password, setPassword] = useState('');
