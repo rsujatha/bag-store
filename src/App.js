@@ -8,7 +8,7 @@ import { useCart } from './CartContext';
 import CartDrawer from './CartDrawer';
 import { useWishlist } from './WishlistContext';
 import WishlistDrawer from './WishlistDrawer';
-
+import { auth, db } from './firebase';
 // ── Placeholder ───────────────────────────────────────────────────────────────
 function PlaceholderImage({ name, className }) {
   return (
@@ -698,6 +698,108 @@ function AboutPage() {
     </section>
   );
 }
+// ── Orders Page ───────────────────────────────────────────────────────────────
+function OrdersPage({ onNavigate }) {
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, async (u) => {
+      setUser(u);
+      if (u) {
+        try {
+          const { collection, query, where, orderBy, getDocs } = await import('firebase/firestore');
+          const q = query(
+            collection(db, 'orders'),
+            where('uid', '==', u.uid),
+            orderBy('created_at', 'desc')
+          );
+          const snap = await getDocs(q);
+          setOrders(snap.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+        } catch (err) {
+          console.error('Failed to load orders:', err);
+        }
+      }
+      setLoading(false);
+    });
+    return unsub;
+  }, []);
+
+  if (loading) return <div className="page-status">Loading orders…</div>;
+
+  if (!user) return (
+    <div className="placeholder-page">
+      <h2>My Orders</h2>
+      <p>Please sign in to view your orders.</p>
+    </div>
+  );
+
+  if (orders.length === 0) return (
+    <div className="placeholder-page">
+      <h2>My Orders</h2>
+      <p>You haven't placed any orders yet.</p>
+      <button className="hero-cta" style={{ marginTop: '24px' }} onClick={() => onNavigate('shop')}>
+        Start Shopping
+      </button>
+    </div>
+  );
+
+  return (
+    <div className="orders-page">
+      <div className="orders-header">
+        <h2>My Orders</h2>
+        <p>{orders.length} order{orders.length !== 1 ? 's' : ''}</p>
+      </div>
+      <div className="orders-list">
+        {orders.map((order) => (
+          <div key={order.id} className="order-card">
+            <div className="order-card-header">
+              <div>
+                <p className="order-date">
+                  {order.created_at?.toDate
+                    ? order.created_at.toDate().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })
+                    : 'Recent order'}
+                </p>
+                <p className="order-id">Order ID: {order.id}</p>
+              </div>
+              <div className="order-status paid">Paid</div>
+            </div>
+
+            <div className="order-items">
+              {order.items.map((item, i) => (
+                <div key={i} className="order-item">
+                  <div className="order-item-img">
+                    {item.image
+                      ? <img src={item.image} alt={item.product_name} />
+                      : <div className="order-item-placeholder">👜</div>
+                    }
+                  </div>
+                  <div className="order-item-info">
+                    <p className="order-item-name">{item.product_name}</p>
+                    <p className="order-item-meta">Size: {item.size} · Qty: {item.quantity}</p>
+                    <p className="order-item-price">₹{Number(item.price * item.quantity).toLocaleString('en-IN')}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="order-card-footer">
+              <div className="order-delivery">
+                <p className="order-delivery-label">Delivery to</p>
+                <p className="order-delivery-address">{order.customer?.name} · {order.customer?.address}</p>
+              </div>
+              <div className="order-total">
+                <span>Total</span>
+                <span>₹{Number(order.total).toLocaleString('en-IN')}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 // ── App ───────────────────────────────────────────────────────────────────────
 function App() {
@@ -731,6 +833,7 @@ function App() {
       {currentPage === 'product'  && <ProductPage productId={selectedProductId} onNavigate={navigate} />}
       {currentPage === 'blog'     && <div className="placeholder-page"><h2>Blog</h2><p>Coming soon.</p></div>}
       {currentPage === 'about-us' && <AboutPage />}
+      {currentPage === 'orders'   && <OrdersPage onNavigate={navigate} />}
     </div>
   );
 }
