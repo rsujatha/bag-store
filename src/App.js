@@ -575,20 +575,6 @@ function ProductPage({ productId, onNavigate, onOpenCart }) {
     }
   });
 
-  const makePayment = async () => {
-    try {
-      const resp = await fetch('http://localhost:5001/create-order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: activeVariant.price }),
-      });
-      const data = await resp.json();
-      if (data.id) alert(`Order Created! ID: ${data.id}`);
-      else alert('Server reached, but Razorpay keys are missing or invalid.');
-    } catch {
-      alert('Could not connect to the server.');
-    }
-  };
 
   return (
     <div className="product-detail">
