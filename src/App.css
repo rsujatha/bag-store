@@ -859,3 +859,147 @@ body {
 .stack-img.visible {
   opacity: 1;
 }
+/* ========== Orders Page ========== */
+.orders-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 32px 80px;
+}
+.orders-header {
+  margin-bottom: 32px;
+}
+.orders-header h2 {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--color-text);
+}
+.orders-header p {
+  color: var(--color-text-muted);
+  font-size: 14px;
+  margin-top: 4px;
+}
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.order-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.order-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-border);
+  background: #fafaf5;
+}
+.order-date {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+.order-id {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+.order-status {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+.order-status.paid {
+  background: #e8f5e9;
+  color: #2a7a2a;
+}
+.order-items {
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.order-item {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.order-item-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 6px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #f5f5f0;
+}
+.order-item-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.order-item-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+.order-item-info { flex: 1; }
+.order-item-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+.order-item-meta {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+.order-item-price {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-top: 4px;
+}
+.order-card-footer {
+  padding: 14px 20px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+}
+.order-delivery-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: 4px;
+}
+.order-delivery-address {
+  font-size: 13px;
+  color: var(--color-text);
+  max-width: 400px;
+}
+.order-total {
+  display: flex;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .orders-page { padding: 24px 16px 60px; }
+  .order-card-footer { flex-direction: column; align-items: flex-start; }
+}
+
