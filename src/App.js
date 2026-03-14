@@ -8,6 +8,8 @@ import { useCart } from './CartContext';
 import CartDrawer from './CartDrawer';
 import { useWishlist } from './WishlistContext';
 import WishlistDrawer from './WishlistDrawer';
+import { collection, query, where, orderBy, getDocs } from 'firebase/firestore';
+
 // ── Placeholder ───────────────────────────────────────────────────────────────
 function PlaceholderImage({ name, className }) {
   return (
@@ -694,26 +696,25 @@ function OrdersPage({ onNavigate }) {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, async (u) => {
-      setUser(u);
-      if (u) {
-        try {
-          const { collection, query, where, orderBy, getDocs } = await import('firebase/firestore');
-          const q = query(
-            collection(db, 'orders'),
-            where('uid', '==', u.uid),
-            orderBy('created_at', 'desc')
-          );
-          const snap = await getDocs(q);
-          setOrders(snap.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
-        } catch (err) {
-          console.error('Failed to load orders:', err);
-        }
+  const unsub = onAuthStateChanged(auth, async (u) => {
+    setUser(u);
+    if (u) {
+      try {
+        const q = query(
+          collection(db, 'orders'),
+          where('uid', '==', u.uid),
+          orderBy('created_at', 'desc')
+        );
+        const snap = await getDocs(q);
+        setOrders(snap.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+      } catch (err) {
+        console.error('Failed to load orders:', err);
       }
-      setLoading(false);
-    });
-    return unsub;
-  }, []);
+    }
+    setLoading(false);
+  });
+  return unsub;
+}, []);
 
   if (loading) return <div className="page-status">Loading orders…</div>;
 
