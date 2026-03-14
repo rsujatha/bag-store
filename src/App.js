@@ -8,7 +8,6 @@ import { useCart } from './CartContext';
 import CartDrawer from './CartDrawer';
 import { useWishlist } from './WishlistContext';
 import WishlistDrawer from './WishlistDrawer';
-import { auth, db } from './firebase';
 // ── Placeholder ───────────────────────────────────────────────────────────────
 function PlaceholderImage({ name, className }) {
   return (
