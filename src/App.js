@@ -66,6 +66,9 @@ function Navbar({ currentPage, onNavigate }) {
             </div>
             <span className="navbar-logo-text" style={{ fontSize: '36px', fontWeight: 'bold' }}>KASVI</span>
           </a>
+  <button className="hamburger" onClick={() => setShowMobileMenu(!showMobileMenu)}>
+  {showMobileMenu ? '✕' : '☰'}
+</button>
 
           <ul className="navbar-links">
             {navItems.map((item) => (
