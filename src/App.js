@@ -150,31 +150,55 @@ function Navbar({ currentPage, onNavigate }) {
 function HomePage({ onNavigate }) {
   const videoRef = React.useRef(null);
   const [isReversing, setIsReversing] = React.useState(false);
+  const animationIdRef = React.useRef(null);
 
   React.useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
+    const playForward = () => {
+      video.playbackRate = 1;
+      video.play().catch(() => {});
+    };
+
+    const playReverse = () => {
+      const step = () => {
+        if (video.currentTime <= 0) {
+          setIsReversing(false);
+          playForward();
+        } else {
+          video.currentTime -= 0.03;
+          animationIdRef.current = requestAnimationFrame(step);
+        }
+      };
+      video.pause();
+      video.currentTime = video.duration;
+      animationIdRef.current = requestAnimationFrame(step);
+    };
+
     const handleEnded = () => {
-      setIsReversing(!isReversing);
+      setIsReversing(true);
     };
 
     video.addEventListener('ended', handleEnded);
 
     if (isReversing) {
-      video.currentTime = video.duration;
-      video.playbackRate = -1;
+      playReverse();
     } else {
-      video.currentTime = 0;
-      video.playbackRate = 1;
+      playForward();
     }
 
-    return () => video.removeEventListener('ended', handleEnded);
+    return () => {
+      video.removeEventListener('ended', handleEnded);
+      if (animationIdRef.current) {
+        cancelAnimationFrame(animationIdRef.current);
+      }
+    };
   }, [isReversing]);
 
   return (
     <header className="hero">
-      <video ref={videoRef} muted playsInline className="hero-video">
+      <video ref={videoRef} muted playsInline autoPlay className="hero-video">
         <source src="/hero-video.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
