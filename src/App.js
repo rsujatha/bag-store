@@ -9,6 +9,7 @@ import CartDrawer from './CartDrawer';
 import { useWishlist } from './WishlistContext';
 import WishlistDrawer from './WishlistDrawer';
 import { collection, query, where, orderBy, getDocs } from 'firebase/firestore';
+import AdminPage from './AdminPage';
 
 // ── Placeholder ───────────────────────────────────────────────────────────────
 function PlaceholderImage({ name, className }) {
@@ -825,6 +826,7 @@ function App() {
       {currentPage === 'blog'     && <div className="placeholder-page"><h2>Blog</h2><p>Coming soon.</p></div>}
       {currentPage === 'about-us' && <AboutPage />}
       {currentPage === 'orders'   && <OrdersPage onNavigate={navigate} />}
+      {currentPage === 'admin' && <AdminPage />}
       {showCart && <CartDrawer onClose={() => setShowCart(false)} />}
     </div>
   );
