@@ -833,7 +833,7 @@ function App() {
       <Navbar currentPage={currentPage} onNavigate={navigate} />
       {currentPage === 'home'     && <HomePage onNavigate={navigate} />}
       {currentPage === 'shop'     && <ShopPage onNavigate={navigate} />}
-      {currentPage === 'product'  && <ProductPage productId={selectedProductId} onNavigate={navigate} />}
+      {currentPage === 'product' && <ProductPage productId={selectedProductId} onNavigate={navigate} onOpenCart={() => setShowCart(true)} />}
       {currentPage === 'blog'     && <div className="placeholder-page"><h2>Blog</h2><p>Coming soon.</p></div>}
       {currentPage === 'about-us' && <AboutPage />}
       {currentPage === 'orders'   && <OrdersPage onNavigate={navigate} />}
