@@ -204,7 +204,7 @@ function HomePage({ onNavigate }) {
       </video>
       <div className="hero-overlay"></div>
       <div className="hero-content">
-        <h2>Style with Purpose 2026</h2>
+        <h2>Style with Purpose</h2>
         <p>Quality bags for your everyday journey.</p>
         <button className="hero-cta" onClick={() => onNavigate('shop')}>
           Browse the Shop <ArrowRight size={16} />
