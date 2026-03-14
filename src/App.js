@@ -542,7 +542,7 @@ function ImageGallery({ images, productName }) {
 }
 
 // ── Product Detail Page ───────────────────────────────────────────────────────
-function ProductPage({ productId, onNavigate }) {
+function ProductPage({ productId, onNavigate, onOpenCart }) {
   const { addToCart } = useCart();
   const [variants, setVariants]             = useState([]);
   const [loading, setLoading]               = useState(true);
@@ -656,9 +656,13 @@ function ProductPage({ productId, onNavigate }) {
                 >
     Add to Bag
   </button>
-  <button className="buy-button" disabled={!activeVariant.in_stock} onClick={makePayment}>
-    Buy Now
-  </button>
+  <button className="buy-button" disabled={!activeVariant.in_stock}
+  onClick={() => {
+    addToCart(activeVariant, activeVariant.size);
+    onOpenCart();
+  }}>
+  Buy Now
+</button>
 </div>
         </div>
       </div>
