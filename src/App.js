@@ -691,7 +691,53 @@ function AboutPage() {
   );
 }
 // ── Orders Page ───────────────────────────────────────────────────────────────
-return (
+// ── Orders Page ───────────────────────────────────────────────────────────────
+function OrdersPage({ onNavigate }) {
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, async (u) => {
+      setUser(u);
+      if (u) {
+        try {
+          const q = query(
+            collection(db, 'orders'),
+            where('uid', '==', u.uid),
+            orderBy('created_at', 'desc')
+          );
+          const snap = await getDocs(q);
+          setOrders(snap.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+        } catch (err) {
+          console.error('Failed to load orders:', err);
+        }
+      }
+      setLoading(false);
+    });
+    return unsub;
+  }, []);
+
+  if (loading) return <div className="page-status">Loading orders…</div>;
+
+  if (!user) return (
+    <div className="placeholder-page">
+      <h2>My Orders</h2>
+      <p>Please sign in to view your orders.</p>
+    </div>
+  );
+
+  if (orders.length === 0) return (
+    <div className="placeholder-page">
+      <h2>My Orders</h2>
+      <p>You haven't placed any orders yet.</p>
+      <button className="hero-cta" style={{ marginTop: '24px' }} onClick={() => onNavigate('shop')}>
+        Start Shopping
+      </button>
+    </div>
+  );
+
+  return (
     <div className="orders-page">
       <div className="orders-header">
         <h2>My Orders</h2>
@@ -745,6 +791,7 @@ return (
       </div>
     </div>
   );
+}
 
 // ── App ───────────────────────────────────────────────────────────────────────
 function App() {
