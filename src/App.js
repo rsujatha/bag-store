@@ -691,52 +691,7 @@ function AboutPage() {
   );
 }
 // ── Orders Page ───────────────────────────────────────────────────────────────
-function OrdersPage({ onNavigate }) {
-  const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-  const unsub = onAuthStateChanged(auth, async (u) => {
-    setUser(u);
-    if (u) {
-      try {
-        const q = query(
-          collection(db, 'orders'),
-          where('uid', '==', u.uid),
-          orderBy('created_at', 'desc')
-        );
-        const snap = await getDocs(q);
-        setOrders(snap.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
-      } catch (err) {
-        console.error('Failed to load orders:', err);
-      }
-    }
-    setLoading(false);
-  });
-  return unsub;
-}, []);
-
-  if (loading) return <div className="page-status">Loading orders…</div>;
-
-  if (!user) return (
-    <div className="placeholder-page">
-      <h2>My Orders</h2>
-      <p>Please sign in to view your orders.</p>
-    </div>
-  );
-
-  if (orders.length === 0) return (
-    <div className="placeholder-page">
-      <h2>My Orders</h2>
-      <p>You haven't placed any orders yet.</p>
-      <button className="hero-cta" style={{ marginTop: '24px' }} onClick={() => onNavigate('shop')}>
-        Start Shopping
-      </button>
-    </div>
-  );
-
-  return (
+return (
     <div className="orders-page">
       <div className="orders-header">
         <h2>My Orders</h2>
@@ -754,8 +709,9 @@ function OrdersPage({ onNavigate }) {
                 </p>
                 <p className="order-id">Order ID: {order.id}</p>
               </div>
-            <div className={`order-status ${order.status}`}>
-            {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+              <div className={`order-status ${order.status}`}>
+                {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+              </div>
             </div>
             <div className="order-items">
               {order.items.map((item, i) => (
@@ -774,7 +730,6 @@ function OrdersPage({ onNavigate }) {
                 </div>
               ))}
             </div>
-
             <div className="order-card-footer">
               <div className="order-delivery">
                 <p className="order-delivery-label">Delivery to</p>
@@ -790,7 +745,6 @@ function OrdersPage({ onNavigate }) {
       </div>
     </div>
   );
-}
 
 // ── App ───────────────────────────────────────────────────────────────────────
 function App() {
