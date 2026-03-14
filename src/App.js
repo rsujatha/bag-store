@@ -148,9 +148,33 @@ function Navbar({ currentPage, onNavigate }) {
 }
 // ── Home ──────────────────────────────────────────────────────────────────────
 function HomePage({ onNavigate }) {
+  const videoRef = React.useRef(null);
+  const [isReversing, setIsReversing] = React.useState(false);
+
+  React.useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handleEnded = () => {
+      setIsReversing(!isReversing);
+    };
+
+    video.addEventListener('ended', handleEnded);
+
+    if (isReversing) {
+      video.currentTime = video.duration;
+      video.playbackRate = -1;
+    } else {
+      video.currentTime = 0;
+      video.playbackRate = 1;
+    }
+
+    return () => video.removeEventListener('ended', handleEnded);
+  }, [isReversing]);
+
   return (
     <header className="hero">
-      <video autoPlay muted loop playsInline className="hero-video">
+      <video ref={videoRef} muted playsInline className="hero-video">
         <source src="/hero-video.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
