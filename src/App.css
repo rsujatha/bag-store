@@ -267,6 +267,10 @@ body {
     height: 80vh;
   }
   
+  .hero-video {
+    transform: scale(1.5);
+  }
+  
   .hero h2 {
     font-size: 40px;
     letter-spacing: -1px;
