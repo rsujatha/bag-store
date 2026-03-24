@@ -5,13 +5,28 @@
     "category": "Tote",
     "size": "M",
     "color": "MULTI",
-    "price": 1200,
-    "in_stock": true,
+    "price": 1100,
+    "in_stock": false,
     "description": "A stylish everyday Tote bag to carry your essentials, available in custom color in medium and large sizes",
     "images": [
       "/images/Biscuit Knot Tote.jpg",
       "/images/White Tote Bag.jpg",
       "/images/Dimensions Chart.png"
+    ]
+  },
+  {
+    "product_id": "BAG001",
+    "product_name": "Tote Bag",
+    "category": "Tote",
+    "size": "M",
+    "color": "Chocolate Brown",
+    "price": 1100,
+    "in_stock": true,
+    "description": "A stylish everyday Tote bag to carry your essentials, available in custom color in medium and large sizes",
+    "images": [
+      "/images/BrownTote.png",
+      "/images/BrownTote1.png",
+      "/images/BrownTote2.jpeg"
     ]
   },
   {
@@ -58,7 +73,11 @@
     "price": 900,
     "in_stock": true,
     "description": "A timeless style statement with elegant handle",
-    "images": []
+    "images": [
+      "/images/BlackWhite0.png",
+      "/images/BlackWhite1.jpeg",
+      "/images/BlackWhite2.jpeg"
+    ]
   },
   {
     "product_id": "BAG003",
@@ -70,7 +89,7 @@
     "in_stock": true,
     "description": "A timeless style statement with elegant handle",
     "images": [
-      "/images/Blue Sling.jpeg"
+      "/images/BlueSling.jpeg"
     ]
   },
   {
@@ -89,11 +108,16 @@
     "product_name": "Sling with leather",
     "category": "Sling",
     "size": "M",
-    "color": "MULTI",
+    "color": "Blue White",
     "price": 1400,
     "in_stock": true,
     "description": "A timeless style statement with elegant handle",
-    "images": []
+    "images": [
+      "/images/BlueWhiteSling0.png",
+      "/images/BlueWhiteSling1.png",
+      "/images/BlueWhiteSling2.jpeg",
+      "/images/BlueWhiteSling3.jpeg"
+    ]
   },
   {
     "product_id": "BAG005",
@@ -116,7 +140,10 @@
     "in_stock": true,
     "description": "Your everyday travel buddy, for that sturdy yet cute look",
     "images": [
-      "/images/Pink Basket.jpeg"
+      "/images/PinkBasket0.png",
+      "/images/PinkBasket01.png",
+      "/images/PinkBasket.jpeg",
+      "/images/PinkBasket1.png"
     ]
   },
   {
@@ -146,12 +173,13 @@
     "product_name": "Wooden handle Koodai",
     "category": "Wooden",
     "size": "M",
-    "color": "",
+    "color": "Yellow",
     "price": 1000,
     "in_stock": true,
     "description": "Comfort and elegance woven into a bag, comes in custom sizes and colours of your choice!",
     "images": [
-      "/images/Yellow Wooden Handle.jpeg"
+      "/images/YellowWoodenHandle1.png",
+      "/images/YellowWoodenHandle.jpeg"
     ]
   },
   {
@@ -192,18 +220,20 @@
     "product_name": "Eye handle Koodai",
     "category": "Wooden",
     "size": "S",
-    "color": "",
+    "color": "Dark Brown",
     "price": 850,
     "in_stock": true,
     "description": "Ultra stylish bag, a perfect head turner!",
-    "images": []
+    "images": [
+      "/images/Eye Handle 0.png"
+    ]
   },
   {
     "product_id": "BAG008",
     "product_name": "Eye handle Koodai",
     "category": "Wooden",
     "size": "M",
-    "color": "",
+    "color": "Dark Brown",
     "price": 1100,
     "in_stock": true,
     "description": "Ultra stylish bag, a perfect head turner!",
