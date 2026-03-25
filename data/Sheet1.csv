@@ -1,17 +1,13 @@
 product_id,product_name,category,size,color,price,image_url,in_stock,description
-BAG001,Tote Bag,Tote,M,MULTI,1100,"Biscuit Knot Tote.jpg, White Tote Bag.jpg, Dimensions Chart.png",False,"A stylish everyday Tote bag to carry your essentials, available in custom color in medium and large sizes"
-BAG001,Tote Bag,Tote,M,Chocolate Brown,1100,"BrownTote.png, BrownTote1.png, BrownTote2.jpeg",True,"A stylish everyday Tote bag to carry your essentials, available in custom color in medium and large sizes"
+BAG001,Tote Bag,Tote,M,Chocolate Brown,1100,"BrownTote.png, BrownTote1.png, BrownTote2.jpeg, Biscuit Knot Tote.jpg, White Tote Bag.jpg, Dimensions Chart.png",False,"A stylish everyday Tote bag to carry your essentials, available in custom color in medium and large sizes"
 BAG001,Tote Bag,Tote,L,MULTI,1400,,False,"A stylish everyday Tote bag to carry your essentials, available in custom color in medium and large sizes"
 BAG002,Clutch Koodai,Clutch,S,MULTI,700,,True,An effortless style statement to complete your look
 BAG002,Clutch Koodai,Clutch,M,MULTI,1000,BrownModelClutch.jpeg,True,An effortless style statement to complete your look
+BAG004,Sling with leather,Sling,M,Blue White,1400,"BlueWhiteSling1.png, BlueWhiteSling0.png, BlueWhiteSling2.jpeg, BlueWhiteSling3.jpeg",True,A timeless style statement with elegant handle
 BAG003,Sling with chain,Sling,S,MULTI,900,"BlackWhite0.png, BlackWhite1.jpeg, BlackWhite2.jpeg",True,A timeless style statement with elegant handle
 BAG003,Sling with chain,Sling,M,MULTI,1200,BlueSling.jpeg,True,A timeless style statement with elegant handle
-BAG004,Sling with leather,Sling,S,MULTI,1100,,True,A timeless style statement with elegant handle
-BAG004,Sling with leather,Sling,M,Blue White,1400,"BlueWhiteSling0.png, BlueWhiteSling1.png, BlueWhiteSling2.jpeg, BlueWhiteSling3.jpeg",True,A timeless style statement with elegant handle
-BAG005,Basket Koodai,Basket,S,,650,,True,"Your everyday travel buddy, for that sturdy yet cute look"
 BAG005,Basket Koodai,Basket,M,,850,"PinkBasket0.png, PinkBasket01.png, PinkBasket.jpeg, PinkBasket1.png, ",True,"Your everyday travel buddy, for that sturdy yet cute look"
 BAG005,Basket Koodai,Basket,L,,1100,,True,"Your everyday travel buddy, for that sturdy yet cute look"
-BAG006,Wooden handle Koodai,Wooden,S,,10,,True,"Comfort and elegance woven into a bag, comes in custom sizes and colours of your choice!"
 BAG006,Wooden handle Koodai,Wooden,M,Yellow,1000,"YellowWoodenHandle1.png, YellowWoodenHandle.jpeg",True,"Comfort and elegance woven into a bag, comes in custom sizes and colours of your choice!"
 BAG006,Wooden handle Koodai,Wooden,L,,1400,,True,"Comfort and elegance woven into a bag, comes in custom sizes and colours of your choice!"
 BAG007,Kai Koodai,Wooden,S,,750,,True,The show stopping bag that can redefine your fashion while providing space for that extra shopping!
