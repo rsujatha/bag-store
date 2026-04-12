@@ -9,9 +9,8 @@
     "in_stock": false,
     "description": "A stylish everyday Tote bag to carry your essentials, available in custom color in medium and large sizes",
     "images": [
-      "/images/BrownTote.png",
-      "/images/BrownTote1.png",
       "/images/BrownTote2.jpeg",
+      "/images/BrownTote.png",
       "/images/Biscuit Knot Tote.jpg",
       "/images/White Tote Bag.jpg",
       "/images/Dimensions Chart.png"
@@ -62,10 +61,10 @@
     "in_stock": true,
     "description": "A timeless style statement with elegant handle",
     "images": [
+      "/images/BlueWhiteSling3.jpeg",
       "/images/BlueWhiteSling1.png",
       "/images/BlueWhiteSling0.png",
-      "/images/BlueWhiteSling2.jpeg",
-      "/images/BlueWhiteSling3.jpeg"
+      "/images/BlueWhiteSling2.jpeg"
     ]
   },
   {
@@ -78,8 +77,8 @@
     "in_stock": true,
     "description": "A timeless style statement with elegant handle",
     "images": [
-      "/images/BlackWhite0.png",
       "/images/BlackWhite1.jpeg",
+      "/images/BlackWhite0.png",
       "/images/BlackWhite2.jpeg"
     ]
   },
